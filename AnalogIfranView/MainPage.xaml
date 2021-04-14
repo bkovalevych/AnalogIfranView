@@ -9,6 +9,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock x:Uid="greeting" FontSize="30" />
     </Grid>
 </Page>

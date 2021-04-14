@@ -30,7 +30,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="AnalogIfranView.App">
+      EntryPoint="AnalogIfranView.App" ResourceGroup="Strings">
       <uap:VisualElements
         DisplayName="AnalogIfranView"
         Square150x150Logo="Assets\Square150x150Logo.png"

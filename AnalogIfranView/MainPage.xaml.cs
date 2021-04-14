@@ -24,6 +24,7 @@ namespace AnalogIfranView
     {
         public MainPage()
         {
+            Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US";
             this.InitializeComponent();
         }
     }
