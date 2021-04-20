@@ -1,0 +1,92 @@
+﻿<Page
+    x:Class="AnalogIfranView.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnalogIfranView.Views"
+    xmlns:viewModels="using:AnalogIfranView.ViewModels"
+    xmlns:helper="using:AnalogIfranView.Helpers" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    NavigationCacheMode="Required"
+    >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <muxc:MenuBar>
+            <muxc:MenuBarItem Title="{helper:ResourceString Name=file}">
+                <MenuFlyoutItem Text="{helper:ResourceString Name=open}" 
+                                Command="{x:Bind ImagesProp.OpenImageCommand}"
+                                />
+                <MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=slideshow}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=batchConversion}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=searchFiles}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=renameFile}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=moveFile}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=save}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" />
+                <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=settings}" 
+                                Command="{x:Bind helper:NavigationService.Instance.NavigateCommand}"
+                                CommandParameter="{local:DisplayManager PathToPage=Settings}"
+                                />
+                <MenuFlyoutItem Text="{helper:ResourceString Name=exit}" />
+            </muxc:MenuBarItem>
+            <muxc:MenuBarItem Title="{helper:ResourceString Name=edit}">
+                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=showPaintDialog}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=insertText}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=insertImage}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=cutSelection}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=cutArea}"/>
+                <MenuFlyoutSubItem Text="{helper:ResourceString Name=removeInsertStrip}">
+                    <MenuFlyoutItem Text="{helper:ResourceString Name=removeVerticalStrip}"/>
+                    <MenuFlyoutItem Text="{helper:ResourceString Name=removeHorizontalStrip}"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="{helper:ResourceString Name=insertVerticalStrip}"/>
+                    <MenuFlyoutItem Text="{helper:ResourceString Name=insertHorizontalStrip}"/>
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=cropSelection}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=captureVisibleWindowArea}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=copy}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=paste}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=pasteSpecial}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=deleteClearDisplay}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=clearClipboard}"/>
+
+            </muxc:MenuBarItem>
+        </muxc:MenuBar>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+            <ScrollViewer.Content>
+                <Grid>
+                    
+                    <Image Source="{x:Bind ImagesProp.Image, Mode=TwoWay}" 
+                   Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
+                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}"/>
+                    <InkCanvas Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
+                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" x:Name="inkCanvas"/>
+                </Grid>
+                
+            </ScrollViewer.Content>
+            
+        </ScrollViewer>
+        
+    </Grid>
+</Page>

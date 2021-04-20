@@ -13,19 +13,22 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
+// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace AnalogIfranView
+namespace AnalogIfranView.Views
 {
+    using Helpers;
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class Settings : Page
     {
-        public MainPage()
-        {
-            Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US";
+        public Settings() {
             this.InitializeComponent();
+            ThemeSwitcher themeSwitcher = new ThemeSwitcher();
+            themeSwitcherUI.DataContext = themeSwitcher;
+            LanguageSwitcher languageSwitcher = new LanguageSwitcher();
+            languageSwitcherUI.DataContext = languageSwitcher;
         }
     }
 }

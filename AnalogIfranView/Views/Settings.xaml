@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="AnalogIfranView.Views.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnalogIfranView.Views"
+    xmlns:vm="using:AnalogIfranView.ViewModels"
+    xmlns:helper="using:AnalogIfranView.Helpers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <StackPanel Orientation="Vertical">
+        
+        <AppBar>
+            <AppBarButton Icon="Back" Label="back" Command="{x:Bind helper:NavigationService.Instance.GoBackCommand}"/>
+        </AppBar>
+        <StackPanel Margin="20" Orientation="Vertical">
+            <ToggleSwitch d:DataContext="{d:DesignInstance Type=helper:ThemeSwitcher}"
+                          x:Name="themeSwitcherUI" 
+                          OnContent="{helper:ResourceString Name=lightTheme}" 
+                          OffContent="{helper:ResourceString Name=darkTheme}"
+                          IsOn="{Binding IsLight, Mode=TwoWay}"/>
+            <ComboBox x:Name="languageSwitcherUI" d:DataContext="{d:DesignInstance Type=helper:LanguageSwitcher}"  
+                      Header="{helper:ResourceString Name=language}"
+                      
+                      ItemsSource="{Binding Languages}"
+                      SelectedItem="{Binding CurrentLanguage, Mode=TwoWay}"/>
+        </StackPanel>
+        
+    </StackPanel>
+</Page>

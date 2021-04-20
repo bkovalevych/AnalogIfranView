@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="ru-RU" target-language="en-US" original="ANALOGIFRANVIEW/STRINGS/RU-RU/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6916.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="ANALOGIFRANVIEW/STRINGS/RU-RU/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="batchConversion" translate="yes" xml:space="preserve">
+          <source>Свертки\ Переименовать</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Roll-ups</target>
+        </trans-unit>
+        <trans-unit id="captureVisibleWindowArea" translate="yes" xml:space="preserve">
+          <source>Захват видимой части окна</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Capture the visible part of the window</target>
+        </trans-unit>
+        <trans-unit id="clearClipboard" translate="yes" xml:space="preserve">
+          <source>Очистить буфер</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Clear the buffer</target>
+        </trans-unit>
+        <trans-unit id="copy" translate="yes" xml:space="preserve">
+          <source>Скопировать</source>
+          <target state="translated">copy</target>
+        </trans-unit>
+        <trans-unit id="copyFile" translate="yes" xml:space="preserve">
+          <source>Скопировать файл</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Copy the file</target>
+        </trans-unit>
+        <trans-unit id="cropSelection" translate="yes" xml:space="preserve">
+          <source>Обрезать выделение</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Trim the selection</target>
+        </trans-unit>
+        <trans-unit id="cutArea" translate="yes" xml:space="preserve">
+          <source>Вырезать - область вне выделения</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cut - area outside of selection</target>
+        </trans-unit>
+        <trans-unit id="cutSelection" translate="yes" xml:space="preserve">
+          <source>Вырезать - выделение</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cut - selection</target>
+        </trans-unit>
+        <trans-unit id="darkTheme" translate="yes" xml:space="preserve">
+          <source>темная тема</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">dark theme</target>
+        </trans-unit>
+        <trans-unit id="deleteClearDisplay" translate="yes" xml:space="preserve">
+          <source>Очистить дисплей</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Clear the display</target>
+        </trans-unit>
+        <trans-unit id="deleteFile" translate="yes" xml:space="preserve">
+          <source>Удалить файл</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Delete File</target>
+        </trans-unit>
+        <trans-unit id="edit" translate="yes" xml:space="preserve">
+          <source>Править</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Edit</target>
+        </trans-unit>
+        <trans-unit id="exit" translate="yes" xml:space="preserve">
+          <source>Выход</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Exit</target>
+        </trans-unit>
+        <trans-unit id="file" translate="yes" xml:space="preserve">
+          <source>Файл</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">File</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Файл</note>
+        </trans-unit>
+        <trans-unit id="insertHorizontalStrip" translate="yes" xml:space="preserve">
+          <source>Вставить горизонтально</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Insert horizontally</target>
+        </trans-unit>
+        <trans-unit id="insertImage" translate="yes" xml:space="preserve">
+          <source>Вставить Изображение</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Insert Image</target>
+        </trans-unit>
+        <trans-unit id="insertText" translate="yes" xml:space="preserve">
+          <source>Вставить текст</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Insert Text</target>
+        </trans-unit>
+        <trans-unit id="insertVerticalStrip" translate="yes" xml:space="preserve">
+          <source>Вставить вертикально</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Insert vertically</target>
+        </trans-unit>
+        <trans-unit id="lightTheme" translate="yes" xml:space="preserve">
+          <source>светлая тема</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">bright theme</target>
+        </trans-unit>
+        <trans-unit id="moveFile" translate="yes" xml:space="preserve">
+          <source>Передвинуть файл</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Move the file</target>
+        </trans-unit>
+        <trans-unit id="open" translate="yes" xml:space="preserve">
+          <source>Открыть</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Open</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Hello</note>
+        </trans-unit>
+        <trans-unit id="paste" translate="yes" xml:space="preserve">
+          <source>Вставить</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Paste</target>
+        </trans-unit>
+        <trans-unit id="pasteSpecial" translate="yes" xml:space="preserve">
+          <source>Особая вставка</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Special insertion</target>
+        </trans-unit>
+        <trans-unit id="print" translate="yes" xml:space="preserve">
+          <source>Печать</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Print</target>
+        </trans-unit>
+        <trans-unit id="redo" translate="yes" xml:space="preserve">
+          <source>Шаг вперед</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Step Forward</target>
+        </trans-unit>
+        <trans-unit id="removeHorizontalStrip" translate="yes" xml:space="preserve">
+          <source>Удалить горизонтально</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Remove horizontally</target>
+        </trans-unit>
+        <trans-unit id="removeInsertStrip" translate="yes" xml:space="preserve">
+          <source>Удалить/вставить полоску </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Remove/insert strip </target>
+        </trans-unit>
+        <trans-unit id="removeVerticalStrip" translate="yes" xml:space="preserve">
+          <source>Удалить вертикально</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Remove vertically</target>
+        </trans-unit>
+        <trans-unit id="renameFile" translate="yes" xml:space="preserve">
+          <source>Переименовать файл</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Rename file</target>
+        </trans-unit>
+        <trans-unit id="save" translate="yes" xml:space="preserve">
+          <source>Сохранить</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Save</target>
+        </trans-unit>
+        <trans-unit id="saveAs" translate="yes" xml:space="preserve">
+          <source>Сохранить как</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Save view as</target>
+        </trans-unit>
+        <trans-unit id="searchFiles" translate="yes" xml:space="preserve">
+          <source>Поиск файлов</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Search files</target>
+        </trans-unit>
+        <trans-unit id="showPaintDialog" translate="yes" xml:space="preserve">
+          <source>Кисть</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Brush</target>
+        </trans-unit>
+        <trans-unit id="slideshow" translate="yes" xml:space="preserve">
+          <source>Показ слайдов</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Slide show</target>
+        </trans-unit>
+        <trans-unit id="thumbnails" translate="yes" xml:space="preserve">
+          <source>Эскизы</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Thumbnails</target>
+        </trans-unit>
+        <trans-unit id="undo" translate="yes" xml:space="preserve">
+          <source>Шаг назад</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Step back</target>
+        </trans-unit>
+        <trans-unit id="language" translate="yes" xml:space="preserve">
+          <source>Язык</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Language</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="settings" translate="yes" xml:space="preserve">
+          <source>Настройки</source>
+          <target state="new">Настройки</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

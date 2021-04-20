@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,6 +31,10 @@ namespace AnalogIfranView
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            object themeOption = ApplicationData.Current.LocalSettings.Values["themSetting"];
+            if (themeOption != null) {
+                App.Current.RequestedTheme = (ApplicationTheme)(int)themeOption;
+            }
         }
 
         /// <summary>
@@ -66,7 +71,7 @@ namespace AnalogIfranView
                     // Если стек навигации не восстанавливается для перехода к первой странице,
                     // настройка новой страницы путем передачи необходимой информации в качестве параметра
                     // навигации
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(Views.MainPage), e.Arguments);
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();
