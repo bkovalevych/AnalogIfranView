@@ -131,7 +131,7 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ResourceString.cs" />
     <Compile Include="Helpers\ThemeSwitcher.cs" />
-    <Compile Include="IOServices\ImageOpener.cs" />
+    <Compile Include="IOServices\ImageDialogOpener.cs" />
     <Compile Include="ViewModels\Images.cs" />
     <Compile Include="Views\DisplayManager.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
@@ -189,7 +189,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CustomProperties\" />
+  </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>

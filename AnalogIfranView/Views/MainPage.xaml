@@ -33,7 +33,7 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=save}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" />
+                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind ImagesProp.SaveImageCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=settings}" 
@@ -81,7 +81,9 @@
                    Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
                    Height="{x:Bind ImagesProp.Height, Mode=TwoWay}"/>
                     <InkCanvas Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" x:Name="inkCanvas"/>
+                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" x:Name="inkCanvas" />
+
+
                 </Grid>
                 
             </ScrollViewer.Content>

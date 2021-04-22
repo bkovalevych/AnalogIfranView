@@ -11,6 +11,9 @@ namespace AnalogIfranView.ViewModels
 {
     using Helpers;
     using IOServices;
+    using System.Diagnostics;
+    using Windows.Graphics.Imaging;
+    using Windows.UI.Xaml.Controls;
 
     public class Images : Observable
     {
@@ -20,7 +23,6 @@ namespace AnalogIfranView.ViewModels
             set => Set(ref image, value);
         }
         private BitmapImage image;
-
         public double Width
         {
             get => width;
@@ -37,13 +39,31 @@ namespace AnalogIfranView.ViewModels
 
         public ICommand OpenImageCommand => new RelayCommand(OpenFileFunction);
         private async void OpenFileFunction(object param) {
-            Image = await imgOpener.OpenImageDialog();
-            Width = Image.DecodePixelWidth;
-            Height = Image.DecodePixelHeight;
+            BitmapImage openedValue = await imgOpener.OpenImageDialog();
+            if (openedValue == null) {
+                return;
+            }
+            Image = openedValue;
+            
+            Width = openedValue.DecodePixelWidth;
+            Height = openedValue.DecodePixelHeight;
         }
-        private ImageOpener imgOpener;
+
+
+        public ICommand SaveImageCommand => new RelayCommand(SaveFileFunction);
+        private async void SaveFileFunction(object param) {
+            await imgOpener.SaveImageDialog();
+        }
+
+        public ICommand DrawCanvasCommand => new RelayCommand(DrawCanvas);
+        private void DrawCanvas(object param) {
+            var canvas = param as InkCanvas;
+
+            Trace.WriteLine("hello");
+        }
+        private readonly ImageDialogOpener imgOpener;
         public Images() {
-            imgOpener = new ImageOpener();
+            imgOpener = new ImageDialogOpener();
         }
     }
 }
