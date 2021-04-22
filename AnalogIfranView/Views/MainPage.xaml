@@ -8,13 +8,17 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    
+    xmlns:dep="using:AnalogIfranView.CustomProperties" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     >
+    <Page.Resources>
+        <dep:CustomPropExample x:Key="res" />
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -73,15 +77,32 @@
 
             </muxc:MenuBarItem>
         </muxc:MenuBar>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+        <StackPanel Margin="10"  Grid.Row="1" Orientation="Horizontal">
+            <InkToolbar TargetInkCanvas="{x:Bind inkCanvas}"/>
+            <Slider Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
                 <Grid>
-                    
-                    <Image Source="{x:Bind ImagesProp.Image, Mode=TwoWay}" 
-                   Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}"/>
-                    <InkCanvas Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" x:Name="inkCanvas" />
+
+                    <Image Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
+                        Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
+                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}">
+                        <Image.RenderTransform>
+                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <InkCanvas 
+                        
+                        Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
+                        Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" 
+                        x:Name="inkCanvas"
+                        >
+                        <InkCanvas.RenderTransform>
+                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
+                        </InkCanvas.RenderTransform>
+                    </InkCanvas>
 
 
                 </Grid>

@@ -13,10 +13,19 @@ namespace AnalogIfranView.ViewModels
     using IOServices;
     using System.Diagnostics;
     using Windows.Graphics.Imaging;
+    using Windows.UI.Input.Inking;
     using Windows.UI.Xaml.Controls;
 
     public class Images : Observable
     {
+        public double Zoom
+        {
+            get => zoom;
+            set {
+                Set(ref zoom, value);
+            }
+        }
+        private double zoom = 1.0;
         public BitmapImage Image
         {
             get => image;
@@ -36,7 +45,7 @@ namespace AnalogIfranView.ViewModels
             set => Set(ref height, value);
         }
         private double height = 100;
-
+ 
         public ICommand OpenImageCommand => new RelayCommand(OpenFileFunction);
         private async void OpenFileFunction(object param) {
             BitmapImage openedValue = await imgOpener.OpenImageDialog();
@@ -62,8 +71,16 @@ namespace AnalogIfranView.ViewModels
             Trace.WriteLine("hello");
         }
         private readonly ImageDialogOpener imgOpener;
-        public Images() {
-            imgOpener = new ImageDialogOpener();
+        public Images(InkStrokeContainer container) {
+            imgOpener = new ImageDialogOpener(container);
         }
+
+
+        public InkStrokeContainer Strokes
+        {
+            get => strokes;
+            set => Set(ref strokes, value);
+        }
+        private InkStrokeContainer strokes;
     }
 }

@@ -19,6 +19,8 @@ namespace AnalogIfranView.Views
     using Helpers;
     using Windows.Globalization;
     using ViewModels;
+    using CustomProperties;
+
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
@@ -28,8 +30,11 @@ namespace AnalogIfranView.Views
         {
             //Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US";
             this.InitializeComponent();
-            this.ImagesProp = new Images();
+            this.ImagesProp = new Images(inkCanvas.InkPresenter.StrokeContainer);
             inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
+            CustomPropExample p = new CustomPropExample();
+            
+            
         }
         public Images ImagesProp { get; set; }
     }
