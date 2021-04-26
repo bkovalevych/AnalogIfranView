@@ -10,11 +10,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:dep="using:AnalogIfranView.CustomProperties" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
+    xmlns:converter="using:AnalogIfranView.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+    x:Name="mainPage"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     >
+
     <Page.Resources>
         <dep:CustomPropExample x:Key="res" />
+        <converter:NumberConverter x:Key="numConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -36,7 +43,7 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=save}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind ImagesProp.SaveCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind ImagesProp.SaveImageCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
                 <MenuFlyoutSeparator/>
@@ -76,40 +83,78 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=clearClipboard}"/>
 
             </muxc:MenuBarItem>
+            <muxc:MenuBarItem Title="{helper:ResourceString Name=thumbnailMenu}">
+                <MenuFlyoutItem Text="{helper:ResourceString Name=createThumbnail}"
+                                Command="{x:Bind helper:NavigationService.Instance.NavigateCommand}"
+                                CommandParameter="{local:DisplayManager PathToPage=CreatingThumbnailDialog}"
+                                />
+            </muxc:MenuBarItem>
         </muxc:MenuBar>
         <StackPanel Margin="10"  Grid.Row="1" Orientation="Horizontal">
-            <InkToolbar TargetInkCanvas="{x:Bind inkCanvas}"/>
-            <Slider Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
+            <InkToolbar TargetInkCanvas="{x:Bind inkCanvas}" >
+                <InkToolbarCustomToolButton Name="undoButton" ToolTipService.ToolTip="{helper:ResourceString Name=undo}" Command="{x:Bind undoRedo.UndoCommand}">
+                    <SymbolIcon Symbol="Undo"/>
+                </InkToolbarCustomToolButton>
+                <InkToolbarCustomToolButton Name="redoButton" ToolTipService.ToolTip="{helper:ResourceString Name=redo}" Command="{x:Bind undoRedo.RedoCommand}">
+                    <SymbolIcon Symbol="Redo"/>
+                </InkToolbarCustomToolButton>
+            </InkToolbar>
+            <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
         </StackPanel>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+        
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ScrollViewer.Content>
                 <Grid>
-
-                    <Image Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
+                    
+                    <Image 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
                         Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                   Height="{x:Bind ImagesProp.Height, Mode=TwoWay}">
+                        Height="{x:Bind ImagesProp.Height, Mode=TwoWay}">
                         <Image.RenderTransform>
-                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
+                            <ScaleTransform x:Name="scaler" ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
                         </Image.RenderTransform>
                     </Image>
-
-                    <InkCanvas 
-                        
-                        Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                        Height="{x:Bind ImagesProp.Height, Mode=TwoWay}" 
+                    <Border   BorderThickness="1"
+                              BorderBrush="Black"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Width="{x:Bind ImagesProp.Width, Mode=TwoWay}"
+                              Height="{x:Bind ImagesProp.Height, Mode=TwoWay}"
+                              >
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
+                        </Border.RenderTransform>
+                        <InkCanvas 
+                            
                         x:Name="inkCanvas"
                         >
-                        <InkCanvas.RenderTransform>
-                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
-                        </InkCanvas.RenderTransform>
-                    </InkCanvas>
+                        </InkCanvas>
 
-
+                    </Border>
                 </Grid>
                 
             </ScrollViewer.Content>
             
         </ScrollViewer>
-        
+        <StackPanel Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock FontSize="10">
+                <Run Text="{helper:ResourceString Name=nameThumbnail}"/>
+                <Run Text=" : "/>
+                <Run Text="{x:Bind ImagesProp.NamePicture, Mode=OneWay}"/>
+                <Run Text="; "/>
+                
+                <Run Text="{helper:ResourceString Name=width}"/>
+                <Run Text=" : "/>
+                <Run Text="{x:Bind ImagesProp.Width, Mode=OneWay}"/>
+                <Run Text="; "/>
+                
+                <Run Text="{helper:ResourceString Name=height}"/>
+                <Run Text=" : "/>
+                <Run Text="{x:Bind ImagesProp.Height, Mode=OneWay}"/>
+                <Run Text="; "/>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </Page>

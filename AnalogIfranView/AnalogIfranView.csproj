@@ -125,6 +125,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\NumberConverter.cs" />
     <Compile Include="CustomProperties\CustomPropExample.cs" />
     <Compile Include="Helpers\LanguageSwitcher.cs" />
     <Compile Include="Helpers\NavigationService.cs" />
@@ -133,8 +134,17 @@
     <Compile Include="Helpers\ResourceString.cs" />
     <Compile Include="Helpers\ThemeSwitcher.cs" />
     <Compile Include="IOServices\ImageDialogOpener.cs" />
+    <Compile Include="Models\Holst\IHolst.cs" />
+    <Compile Include="Models\Holst\ImageHolst.cs" />
+    <Compile Include="Models\Holst\ThumbnailHolst.cs" />
+    <Compile Include="Models\UndoRedoService.cs" />
     <Compile Include="ViewModels\Images.cs" />
     <Compile Include="ViewModels\Scaler.cs" />
+    <Compile Include="ViewModels\ThumbnailCreateViewModel.cs" />
+    <Compile Include="ViewModels\UndoRedoViewModel.cs" />
+    <Compile Include="Views\CreatingThumbnailDialog.xaml.cs">
+      <DependentUpon>CreatingThumbnailDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DisplayManager.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -165,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\CreatingThumbnailDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,6 +197,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.0.181011001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.25.0</Version>

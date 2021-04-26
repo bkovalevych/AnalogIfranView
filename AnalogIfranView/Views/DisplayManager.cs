@@ -20,6 +20,8 @@ namespace AnalogIfranView.Views
                     return typeof(MainPage);
                 case nameof(Settings):
                     return typeof(Settings);
+                case nameof(CreatingThumbnailDialog):
+                    return typeof(CreatingThumbnailDialog);
                 default:
                     return typeof(MainPage);
             }
