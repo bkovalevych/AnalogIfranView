@@ -41,7 +41,6 @@ namespace AnalogIfranView.Views
         public Images ImagesProp { get; set; }
         public UndoRedoViewModel undoRedo { get; set; }
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            base.OnNavigatedTo(e);
             if (e.Parameter is IHolst holst) {
                 ImagesProp.InitByHolst(holst);
             }

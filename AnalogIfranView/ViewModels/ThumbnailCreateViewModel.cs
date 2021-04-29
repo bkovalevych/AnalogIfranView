@@ -70,7 +70,7 @@ namespace AnalogIfranView.ViewModels
     
 
         
-        private ThumbnailHolst holst;
+        private IHolst holst;
         private ResourceLoader resource = ResourceLoader.GetForCurrentView();
         public ICommand CreateThumbnailCommand => new RelayCommand(CreateThumbnail);
         private void CreateThumbnail(object o) {
@@ -78,8 +78,26 @@ namespace AnalogIfranView.ViewModels
             if (!IsValid) {
                 return;
             }
-            holst = new ThumbnailHolst() { Height=Height, Width=Width, Name=Name};
+            if (creatingMode) {
+                holst = new ThumbnailHolst() { Height = Height, Width = Width, Name = Name };
+            } else {
+                holst.Height = Height;
+                holst.Width = Width;
+            }
+
             NavigationService.Instance.Navigate(typeof(MainPage), holst);
+
+        }
+
+        public bool CreatingMode { set => Set(ref creatingMode, value); get => creatingMode; }
+        private bool creatingMode = true;
+
+        public void InitByHolst(IHolst holst) {
+            this.holst = holst;
+            Width = holst.Width;
+            Height = holst.Height;
+            Name = holst.Name;
+            CreatingMode = false;
         }
         
         public void Validate() {

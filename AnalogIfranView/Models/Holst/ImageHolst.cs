@@ -43,6 +43,7 @@ namespace AnalogIfranView.Models
             var inkpixel = renderTarget.GetPixelBytes();
             WriteableBitmap bmp = new WriteableBitmap((int)Image.PixelWidth, (int)Image.PixelHeight);
             Stream s = bmp.PixelBuffer.AsStream();
+            
             s.Seek(0, SeekOrigin.Begin);
             s.Write(inkpixel, 0, (int)Image.PixelWidth * 4 * (int)Image.PixelHeight);
             s.Position = 0;

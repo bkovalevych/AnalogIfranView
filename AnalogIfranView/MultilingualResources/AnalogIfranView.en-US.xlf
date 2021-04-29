@@ -215,6 +215,10 @@
           <source>стандартный портрет</source>
           <target state="new">стандартный портрет</target>
         </trans-unit>
+        <trans-unit id="resizeSource" translate="yes" xml:space="preserve">
+          <source>Изменить размер</source>
+          <target state="new">Изменить размер</target>
+        </trans-unit>
       </group>
     </body>
   </file>

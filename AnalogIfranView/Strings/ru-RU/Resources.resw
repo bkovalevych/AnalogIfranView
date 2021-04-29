@@ -234,6 +234,9 @@
   <data name="resize" xml:space="preserve">
     <value>Увеличить / Уменьшить</value>
   </data>
+  <data name="resizeSource" xml:space="preserve">
+    <value>Изменить размер</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Сохранить</value>
   </data>

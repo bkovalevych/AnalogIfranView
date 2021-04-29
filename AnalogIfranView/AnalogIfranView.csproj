@@ -134,9 +134,11 @@
     <Compile Include="Helpers\ResourceString.cs" />
     <Compile Include="Helpers\ThemeSwitcher.cs" />
     <Compile Include="IOServices\ImageDialogOpener.cs" />
+    <Compile Include="IOServices\ImageResizer.cs" />
     <Compile Include="Models\Holst\IHolst.cs" />
     <Compile Include="Models\Holst\ImageHolst.cs" />
     <Compile Include="Models\Holst\ThumbnailHolst.cs" />
+    <Compile Include="Models\Provider.cs" />
     <Compile Include="Models\UndoRedoService.cs" />
     <Compile Include="ViewModels\Images.cs" />
     <Compile Include="ViewModels\Scaler.cs" />

@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Navigation;
 namespace AnalogIfranView.Views
 {
     using ViewModels;
+    using Models;
+
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
@@ -28,5 +30,11 @@ namespace AnalogIfranView.Views
             vmField = new ThumbnailCreateViewModel();
         }
         public ThumbnailCreateViewModel vmField;
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            base.OnNavigatedTo(e);
+            if (e.Parameter is IHolst holst) {
+                vmField.InitByHolst(holst);
+            }
+        }
     }
 }

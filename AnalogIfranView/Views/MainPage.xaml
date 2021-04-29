@@ -34,14 +34,14 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=open}" 
                                 Command="{x:Bind ImagesProp.OpenImageCommand}"
                                 />
-                <MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
+                <!--<MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=slideshow}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=batchConversion}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=searchFiles}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=searchFiles}"/>-->
                 <MenuFlyoutItem Text="{helper:ResourceString Name=renameFile}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=moveFile}"/>
+                <!--<MenuFlyoutItem Text="{helper:ResourceString Name=moveFile}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>-->
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind ImagesProp.SaveCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind ImagesProp.SaveImageCommand}"/>
@@ -54,11 +54,10 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=exit}" />
             </muxc:MenuBarItem>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=edit}">
-                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind undoRedo.UndoCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind undoRedo.RedoCommand}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=showPaintDialog}"/>
-                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind ImagesProp.ResizeCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertText}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertImage}"/>
                 <MenuFlyoutSeparator/>
@@ -100,40 +99,35 @@
                 </InkToolbarCustomToolButton>
             </InkToolbar>
             <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
+            <Button Content="share" Command="{x:Bind ImagesProp.ShareCommand}"/>
         </StackPanel>
         
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ScrollViewer.Content>
-                <Grid>
-                    
-                    <Image 
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
-                        Width="{x:Bind ImagesProp.Width, Mode=TwoWay}" 
-                        Height="{x:Bind ImagesProp.Height, Mode=TwoWay}">
-                        <Image.RenderTransform>
-                            <ScaleTransform x:Name="scaler" ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
-                        </Image.RenderTransform>
-                    </Image>
-                    <Border   BorderThickness="1"
-                              BorderBrush="Black"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Width="{x:Bind ImagesProp.Width, Mode=TwoWay}"
-                              Height="{x:Bind ImagesProp.Height, Mode=TwoWay}"
-                              >
-                        <Border.RenderTransform>
-                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" />
-                        </Border.RenderTransform>
-                        <InkCanvas 
-                            
-                        x:Name="inkCanvas"
-                        >
+                <Border Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}" 
+                        Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        Margin="20">
+                    <Grid >
+                        <Image 
+                            Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
+                            Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}"
+                            Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}">
+                        </Image>
+                        <InkCanvas x:Name="inkCanvas" 
+                                   Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}"
+                                   Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}">
+                            <InkCanvas.RenderTransform>
+                                <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" 
+                                                ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
+                            </InkCanvas.RenderTransform>
                         </InkCanvas>
-
-                    </Border>
-                </Grid>
+                    </Grid>
+                </Border>
+                
                 
             </ScrollViewer.Content>
             

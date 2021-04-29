@@ -31,6 +31,7 @@ namespace AnalogIfranView.IOServices
             picker.ViewMode = PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
             picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".png");
 
             StorageFile file = await picker.PickSingleFileAsync();
             if (file == null) {

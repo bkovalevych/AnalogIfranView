@@ -46,7 +46,13 @@
         <Button Grid.Row="0" Grid.Column="0" Content="{helper:ResourceString Name=setLandscapeSize}" Command="{x:Bind vmField.SetLandscapeSizeCommand}"/>
         <Button Grid.Row="0" Grid.Column="1" Content="{helper:ResourceString Name=setPortraitSize}" Command="{x:Bind vmField.SetPortraitSizeCommand}"/>
         <TextBlock  Grid.Row="1" Text="{helper:ResourceString Name=nameThumbnail}" Style="{StaticResource label_style}"/>
-        <TextBox x:Name="nameInput" Text="{x:Bind vmField.Name, Mode=TwoWay}" Width="200" Grid.Row="1" Grid.Column="1" Style="{StaticResource input_style}">
+        <TextBox x:Name="nameInput" 
+                 Text="{x:Bind vmField.Name, Mode=TwoWay}" 
+                 Width="200" Grid.Row="1" 
+                 Grid.Column="1" 
+                 Style="{StaticResource input_style}"
+                 IsEnabled="{x:Bind vmField.CreatingMode}"
+                 >
             <Interactivity:Interaction.Behaviors>
                 <Interactions:EventTriggerBehavior EventName="LostFocus" SourceObject="{Binding ElementName=nameInput}">
                     <Interactions:CallMethodAction TargetObject="{x:Bind vmField}" MethodName="Validate"/>
