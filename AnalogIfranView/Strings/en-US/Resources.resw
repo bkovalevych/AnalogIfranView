@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="batchConversion" xml:space="preserve">
-    <value>Roll-ups</value>
+    <value>Convolve/ Rename</value>
   </data>
   <data name="captureVisibleWindowArea" xml:space="preserve">
     <value>Capture the visible part of the window</value>
@@ -103,7 +103,7 @@
     <value>Save</value>
   </data>
   <data name="saveAs" xml:space="preserve">
-    <value>Save view as</value>
+    <value>Save as</value>
   </data>
   <data name="searchFiles" xml:space="preserve">
     <value>Search files</value>
@@ -161,5 +161,17 @@
   </data>
   <data name="yes" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="setLandscapeSize" xml:space="preserve">
+    <value>standard album</value>
+  </data>
+  <data name="setPortraitSize" xml:space="preserve">
+    <value>standard portrait</value>
+  </data>
+  <data name="resizeSource" xml:space="preserve">
+    <value>Resize</value>
+  </data>
+  <data name="share" xml:space="preserve">
+    <value>Share</value>
   </data>
 </root>

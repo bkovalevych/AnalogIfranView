@@ -19,6 +19,7 @@ namespace AnalogIfranView.ViewModels
     using Windows.UI.Xaml;
     using Views;
     using Windows.ApplicationModel.DataTransfer;
+    using System.Numerics;
 
     public class Images : Observable {
         public string NamePicture
@@ -27,18 +28,34 @@ namespace AnalogIfranView.ViewModels
             set => Set(ref namePicture, value);
         }
         private string namePicture = "New picture";
-        public double Zoom
+        public float Zoom
         {
             get => zoom;
             set {
-                ScaledWidth = value * Width;
-                ScaledHeight = value * Height;
+                ScaledWidth = Math.Round(value, 1) * Width;
+                ScaledHeight = Math.Round(value, 1) * Height;
+                //ResizeCanvas(value);
                 Set(ref zoom, value);
             }
         }
-        private double zoom = 1.0;
+        private float zoom = 1.0F;
+        private void ResizeCanvas(float zoom) {
+            var scaleMatrix = Matrix3x2.CreateScale(new Vector2(zoom));
 
-
+            var resultStrokes = container;
+            foreach (var inkStroke in resultStrokes.GetStrokes()) {
+                inkStroke.PointTransform = scaleMatrix;
+                
+                //var da = inkStroke.DrawingAttributes;
+                //var daSize = da.Size;
+                //daSize.Width = width * zoom;
+                //daSize.Height = height * zoom;
+                //da.Size = daSize;
+                //inkStroke.DrawingAttributes = da;
+            }
+            
+        }
+        
 
         public double ScaledWidth
         {
@@ -86,6 +103,9 @@ namespace AnalogIfranView.ViewModels
             Image = openedValue;
             Width = openedValue.DecodePixelWidth;
             Height = openedValue.DecodePixelHeight;
+            Zoom = 1.0F;
+            ScaledWidth = Width;
+            ScaledHeight = Height;
         }
 
 
@@ -108,8 +128,10 @@ namespace AnalogIfranView.ViewModels
         public ICommand SaveCommand => new RelayCommand(async (o) => await imgOpener.Save(holst));
         private readonly ImageDialogOpener imgOpener;
         private InkStrokeContainer container;
-        public Images(InkStrokeContainer container) {
-            this.container = container;
+        private InkPresenter presenter;
+        public Images(InkPresenter presenter) {
+            this.container = presenter.StrokeContainer;
+            this.presenter = presenter;
             imgOpener = new ImageDialogOpener(container);
             holst = new ThumbnailHolst() { Height = (int)Height, Width = (int)Width, Name = namePicture };
             scaledHeight = height;
@@ -141,7 +163,13 @@ namespace AnalogIfranView.ViewModels
             }
             Width = holst.Width;
             Height = holst.Height;
+            Zoom = 1.0F;
+            ScaledWidth = Width;
+            scaledHeight = Height;
             NamePicture = holst.Name;
+            if (holst is ImageHolst imgHolst) {
+                Image = imgHolst.imageSRC;
+            }
         }
 
         private InkStrokeContainer strokes;

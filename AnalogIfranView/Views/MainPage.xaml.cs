@@ -31,7 +31,7 @@ namespace AnalogIfranView.Views
         public MainPage()
         {
             this.InitializeComponent();
-            this.ImagesProp = new Images(inkCanvas.InkPresenter.StrokeContainer);
+            this.ImagesProp = new Images(inkCanvas.InkPresenter);
             inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
             undoRedo = new UndoRedoViewModel(inkCanvas.InkPresenter);
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
@@ -54,5 +54,6 @@ namespace AnalogIfranView.Views
             }
             deferral.Complete();
         }
+
     }
 }

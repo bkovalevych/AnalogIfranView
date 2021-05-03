@@ -8,7 +8,7 @@
       <group id="ANALOGIFRANVIEW/STRINGS/RU-RU/RESOURCES.RESW" datatype="resx">
         <trans-unit id="batchConversion" translate="yes" xml:space="preserve">
           <source>Свертки\ Переименовать</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Roll-ups</target>
+          <target state="translated">Convolve/ Rename</target>
         </trans-unit>
         <trans-unit id="captureVisibleWindowArea" translate="yes" xml:space="preserve">
           <source>Захват видимой части окна</source>
@@ -128,7 +128,7 @@
         </trans-unit>
         <trans-unit id="saveAs" translate="yes" xml:space="preserve">
           <source>Сохранить как</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Save view as</target>
+          <target state="translated">Save as</target>
         </trans-unit>
         <trans-unit id="searchFiles" translate="yes" xml:space="preserve">
           <source>Поиск файлов</source>
@@ -209,15 +209,19 @@
         </trans-unit>
         <trans-unit id="setLandscapeSize" translate="yes" xml:space="preserve">
           <source>стандартный альбомный</source>
-          <target state="new">стандартный альбомный</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">standard album</target>
         </trans-unit>
         <trans-unit id="setPortraitSize" translate="yes" xml:space="preserve">
           <source>стандартный портрет</source>
-          <target state="new">стандартный портрет</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">standard portrait</target>
         </trans-unit>
         <trans-unit id="resizeSource" translate="yes" xml:space="preserve">
           <source>Изменить размер</source>
-          <target state="new">Изменить размер</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Resize</target>
+        </trans-unit>
+        <trans-unit id="share" translate="yes" xml:space="preserve">
+          <source>Поделиться</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Share</target>
         </trans-unit>
       </group>
     </body>

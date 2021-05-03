@@ -138,5 +138,22 @@ namespace AnalogIfranView.IOServices
                     return false;
             }
         }
+
+        public static async Task<ImageHolst> StreamToHolst(IRandomAccessStream stream, string fileName) {
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+            SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
+            stream.Seek(0);
+            BitmapImage imgSRC = new BitmapImage();
+            imgSRC.SetSource(stream);
+
+            ImageHolst holst = new ImageHolst() {
+                Width = bitmap.PixelWidth,
+                Height = bitmap.PixelHeight,
+                Image = bitmap,
+                imageSRC = imgSRC,
+                Name = fileName
+            };
+            return holst;
+        }
     }
 }

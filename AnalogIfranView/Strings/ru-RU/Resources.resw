@@ -255,6 +255,9 @@
   <data name="settings" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="share" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
   <data name="showPaintDialog" xml:space="preserve">
     <value>Кисть</value>
   </data>

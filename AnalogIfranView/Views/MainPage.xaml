@@ -99,34 +99,33 @@
                 </InkToolbarCustomToolButton>
             </InkToolbar>
             <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
-            <Button Content="share" Command="{x:Bind ImagesProp.ShareCommand}"/>
+            <Button Content="{helper:ResourceString Name=share}" Command="{x:Bind ImagesProp.ShareCommand}"/>
         </StackPanel>
         
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ScrollViewer.Content>
-                <Border Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}" 
-                        Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        BorderThickness="1"
-                        BorderBrush="Black"
-                        Margin="20">
-                    <Grid >
+                
+                    <Grid Margin="20">
+                        
                         <Image 
                             Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
                             Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}"
                             Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}">
                         </Image>
-                        <InkCanvas x:Name="inkCanvas" 
-                                   Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}"
-                                   Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}">
-                            <InkCanvas.RenderTransform>
-                                <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=TwoWay}" 
-                                                ScaleY="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
-                            </InkCanvas.RenderTransform>
+                        <Border BorderThickness="1" BorderBrush="Aqua"
+                                Width="{x:Bind ImagesProp.Width, Mode=OneWay}"
+                                Height="{x:Bind ImagesProp.Height, Mode=OneWay}">
+
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=OneWay}"
+                                            ScaleY="{x:Bind ImagesProp.Zoom, Mode=OneWay}"/>
+                        </Border.RenderTransform>
+                        <InkCanvas x:Name="inkCanvas" >
                         </InkCanvas>
+                        </Border>
+                        
                     </Grid>
-                </Border>
+                
                 
                 
             </ScrollViewer.Content>
