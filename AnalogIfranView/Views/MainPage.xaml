@@ -8,7 +8,8 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:dep="using:AnalogIfranView.CustomProperties" xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:dep="using:AnalogIfranView.CustomProperties" 
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     xmlns:converter="using:AnalogIfranView.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -20,19 +21,18 @@
     >
 
     <Page.Resources>
-        <dep:CustomPropExample x:Key="res" />
         <converter:NumberConverter x:Key="numConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+    
         <muxc:MenuBar>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=file}">
                 <MenuFlyoutItem Text="{helper:ResourceString Name=open}" 
-                                Command="{x:Bind ImagesProp.OpenImageCommand}"
+                                Command="{x:Bind vm.SelectedPage.Images.OpenImageCommand}"
                                 />
                 <!--<MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=slideshow}"/>
@@ -43,8 +43,8 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>-->
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind ImagesProp.SaveCommand}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind ImagesProp.SaveImageCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind vm.SelectedPage.Images.SaveCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind vm.SelectedPage.Images.SaveImageCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=settings}" 
@@ -54,10 +54,10 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=exit}" />
             </muxc:MenuBarItem>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=edit}">
-                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind undoRedo.UndoCommand}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind undoRedo.RedoCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.UndoCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.RedoCommand}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind ImagesProp.ResizeCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind vm.SelectedPage.Images.ResizeCommand}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertText}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertImage}"/>
                 <MenuFlyoutSeparator/>
@@ -89,65 +89,82 @@
                                 />
             </muxc:MenuBarItem>
         </muxc:MenuBar>
-        <StackPanel Margin="10"  Grid.Row="1" Orientation="Horizontal">
-            <InkToolbar TargetInkCanvas="{x:Bind inkCanvas}" >
-                <InkToolbarCustomToolButton Name="undoButton" ToolTipService.ToolTip="{helper:ResourceString Name=undo}" Command="{x:Bind undoRedo.UndoCommand}">
-                    <SymbolIcon Symbol="Undo"/>
-                </InkToolbarCustomToolButton>
-                <InkToolbarCustomToolButton Name="redoButton" ToolTipService.ToolTip="{helper:ResourceString Name=redo}" Command="{x:Bind undoRedo.RedoCommand}">
-                    <SymbolIcon Symbol="Redo"/>
-                </InkToolbarCustomToolButton>
-            </InkToolbar>
-            <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{x:Bind ImagesProp.Zoom, Mode=TwoWay}"/>
-            <Button Content="{helper:ResourceString Name=share}" Command="{x:Bind ImagesProp.ShareCommand}"/>
-        </StackPanel>
-        
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <ScrollViewer.Content>
-                
-                    <Grid Margin="20">
+        <controls:TabView Grid.Row="1" 
+                          AddTabButtonCommand="{x:Bind vm.AddPage}"
+                          TabItemsSource="{x:Bind vm.Pages}"
+                          SelectedItem="{x:Bind vm.SelectedPage}"
+                          DataContext="{x:Bind vm.SelectedPage}"
+                          >
+            <controls:TabView.TabItemTemplate>
+                <DataTemplate>
+                    <Grid >
                         
-                        <Image 
-                            Source="{x:Bind ImagesProp.Image, Mode=TwoWay}"
-                            Width="{x:Bind ImagesProp.ScaledWidth, Mode=OneWay}"
-                            Height="{x:Bind ImagesProp.ScaledHeight, Mode=OneWay}">
-                        </Image>
-                        <Border BorderThickness="1" BorderBrush="Aqua"
-                                Width="{x:Bind ImagesProp.Width, Mode=OneWay}"
-                                Height="{x:Bind ImagesProp.Height, Mode=OneWay}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="10"  Grid.Row="0" Orientation="Horizontal">
+                            <InkToolbar >
+                                <InkToolbarCustomToolButton Name="undoButton" ToolTipService.ToolTip="{helper:ResourceString Name=undo}" Command="{Binding UndoRedoViewModel.UndoCommand}">
+                                    <SymbolIcon Symbol="Undo"/>
+                                </InkToolbarCustomToolButton>
+                                <InkToolbarCustomToolButton Name="redoButton" ToolTipService.ToolTip="{helper:ResourceString Name=redo}" Command="{Binding UndoRedoViewModel.RedoCommand}">
+                                    <SymbolIcon Symbol="Redo"/>
+                                </InkToolbarCustomToolButton>
+                            </InkToolbar>
+                            <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{Binding Images.Zoom, Mode=TwoWay}"/>
+                            <Button Content="{helper:ResourceString Name=share}" Command="{Binding Images.ShareCommand}"/>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <ScrollViewer.Content>
+                                <Grid Margin="20">
+                                    <Image 
+                                        Source="{Binding Images.Image, Mode=TwoWay}"
+                                        Width="{Binding Images.ScaledWidth, Mode=OneWay}"
+                                        Height="{Binding Images.ScaledHeight, Mode=OneWay}">
+                                    </Image>
+                                    <Border BorderThickness="1" BorderBrush="Aqua"
+                                            Width="{Binding Images.Width, Mode=OneWay}"
+                                            Height="{Binding Images.Height, Mode=OneWay}">
 
-                        <Border.RenderTransform>
-                            <ScaleTransform ScaleX="{x:Bind ImagesProp.Zoom, Mode=OneWay}"
-                                            ScaleY="{x:Bind ImagesProp.Zoom, Mode=OneWay}"/>
-                        </Border.RenderTransform>
-                        <InkCanvas x:Name="inkCanvas" >
-                        </InkCanvas>
-                        </Border>
-                        
+                                        <Border.RenderTransform>
+                                            <ScaleTransform 
+                                                ScaleX="{Binding Images.Zoom, Mode=OneWay}"
+                                                ScaleY="{Binding Images.Zoom, Mode=OneWay}"/>
+                                        </Border.RenderTransform>
+                                        <InkCanvas>
+                                            <Interactivity:Interaction.Behaviors>
+                                                <Interactions:EventTriggerBehavior EventName="Loaded">
+                                                    <Interactions:InvokeCommandAction Command="{Binding InitPresenterCommand}" 
+                                                                                      CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </Interactions:EventTriggerBehavior>
+                                            </Interactivity:Interaction.Behaviors>
+                                        </InkCanvas>
+                                    </Border>
+                                </Grid>
+                            </ScrollViewer.Content>
+                        </ScrollViewer>
                     </Grid>
-                
-                
-                
-            </ScrollViewer.Content>
-            
-        </ScrollViewer>
-        <StackPanel Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <TextBlock FontSize="10">
+                </DataTemplate>
+            </controls:TabView.TabItemTemplate>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <TextBlock FontSize="10">
                 <Run Text="{helper:ResourceString Name=nameThumbnail}"/>
                 <Run Text=" : "/>
-                <Run Text="{x:Bind ImagesProp.NamePicture, Mode=OneWay}"/>
+                <Run Text="{x:Bind vm.SelectedPage.Images.NamePicture, Mode=OneWay}"/>
                 <Run Text="; "/>
                 
                 <Run Text="{helper:ResourceString Name=width}"/>
                 <Run Text=" : "/>
-                <Run Text="{x:Bind ImagesProp.Width, Mode=OneWay}"/>
+                <Run Text="{x:Bind vm.SelectedPage.Images.Width, Mode=OneWay}"/>
                 <Run Text="; "/>
                 
                 <Run Text="{helper:ResourceString Name=height}"/>
                 <Run Text=" : "/>
-                <Run Text="{x:Bind ImagesProp.Height, Mode=OneWay}"/>
+                <Run Text="{x:Bind vm.SelectedPage.Images.Height, Mode=OneWay}"/>
                 <Run Text="; "/>
-            </TextBlock>
-        </StackPanel>
+                </TextBlock>
+            </StackPanel>
+        </controls:TabView>
     </Grid>
 </Page>

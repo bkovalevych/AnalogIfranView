@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AnalogIfranView.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Input.Inking;
 
 namespace AnalogIfranView.Models
@@ -55,6 +57,12 @@ namespace AnalogIfranView.Models
             presenter.StrokesCollected += Presenter_StrokesCollected; 
         }
 
+        public ICommand ObservePresenterCommand => new RelayCommand((o) =>
+        {
+            if (o is InkPresenter pr) {
+                ObservePresenter(pr);
+            }
+        });
 
         private void Presenter_StrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args) {
             foreach (var stroke in args.Strokes) {

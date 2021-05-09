@@ -60,12 +60,12 @@ namespace AnalogIfranView.IOServices
             }
         }
 
-        private InkStrokeContainer container;
-        public ImageDialogOpener(InkStrokeContainer container) {
-            this.container = container; 
+       
+        public ImageDialogOpener() {
+             
         }
 
-        public async Task SaveImageDialog(IHolst holst) {
+        public async Task SaveImageDialog(IHolst holst, InkStrokeContainer container) {
             var picker = new FileSavePicker();
             picker.FileTypeChoices.Add("JPEG images", new List<string>() { ".jpg" });
             picker.FileTypeChoices.Add("PNG images", new List<string>() { ".png" });
@@ -107,9 +107,9 @@ namespace AnalogIfranView.IOServices
             }
         }
 
-        public async Task Save(IHolst holst) {
+        public async Task Save(IHolst holst, InkStrokeContainer container) {
             if (holst.FullPath == null) {
-                await SaveImageDialog(holst);
+                 await SaveImageDialog(holst, container);
             }
             else {
                 softwareBitmap = await holst.SavedBitmap(container);
@@ -118,7 +118,7 @@ namespace AnalogIfranView.IOServices
             }
         }
 
-        public async Task<bool> SaveOnClose(IHolst holst) {
+        public async Task<bool> SaveOnClose(Action savingAction) {
             var resource = ResourceLoader.GetForCurrentView();
             ContentDialog closeDialog = new ContentDialog {
                 Title = resource.GetString("save"),
@@ -130,7 +130,7 @@ namespace AnalogIfranView.IOServices
             ContentDialogResult result = await closeDialog.ShowAsync();
             switch(result) {
                 case ContentDialogResult.Primary:
-                    await Save(holst);
+                    savingAction();
                     return true;
                 case ContentDialogResult.Secondary:
                     return true;

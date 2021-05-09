@@ -7,22 +7,40 @@ using System.Threading.Tasks;
 namespace AnalogIfranView.ViewModels
 {
     using Helpers;
+    using System.Collections.ObjectModel;
     using System.Reflection;
     using System.Windows.Input;
     using Views;
-    public class HomeViewModel {
-        private RelayCommand menuCommand;
-
-
-        public HomeViewModel() {
-
-        }
-        public ICommand NavigateToSettingsPage =>
-    new RelayCommand(o => NavigationService.Instance.Navigate(typeof(Settings)));
-
+    using IOServices;
+    public class HomeViewModel : Observable {
+        public ObservableCollection<PageHolder> Pages { get; set; }
         
+        public PageHolder SelectedPage { get => selectedPage; set => Set(ref selectedPage, value); }
+        private PageHolder selectedPage;
+        
+        private readonly ImageDialogOpener opener;
 
-        private static readonly Lazy<HomeViewModel> instance = new Lazy<HomeViewModel>(() => new HomeViewModel());
-        public static HomeViewModel Instance => instance.Value;
+        public ICommand AddPage => new RelayCommand((o) =>
+        {
+            PageHolder new_val = new PageHolder();
+            Pages.Add(new_val);
+            SelectedPage = new_val;
+        });
+        public HomeViewModel() {
+            opener = new ImageDialogOpener();
+            Pages = new ObservableCollection<PageHolder>();
+            var now = new PageHolder();
+            Pages.Add(now);
+            SelectedPage = now;
+        }
+
+        public async Task<bool> SaveOnClose() {
+            bool result = await opener.SaveOnClose(async () => {
+                foreach(var page in Pages) {
+                    await page.Images.Save();
+                }
+            });
+            return result;
+        }
     }
 }

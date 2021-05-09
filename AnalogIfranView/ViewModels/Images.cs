@@ -111,7 +111,7 @@ namespace AnalogIfranView.ViewModels
 
         public ICommand SaveImageCommand => new RelayCommand(SaveFileFunction);
         private async void SaveFileFunction(object param) {
-            await imgOpener.SaveImageDialog(holst);
+            await imgOpener.SaveImageDialog(holst, container);
         }
         private bool isSendedToResize = false;
         public ICommand ResizeCommand => new RelayCommand((o) =>
@@ -120,23 +120,33 @@ namespace AnalogIfranView.ViewModels
             NavigationService.Instance.Navigate(typeof(CreatingThumbnailDialog), holst);
         });
 
-        public async Task<bool> Save() {
-            bool result = await imgOpener.SaveOnClose(holst);
-            return result;
+        public async Task Save() {
+            await imgOpener.Save(holst, container);
         }
 
-        public ICommand SaveCommand => new RelayCommand(async (o) => await imgOpener.Save(holst));
-        private readonly ImageDialogOpener imgOpener;
+        public ICommand SaveCommand => new RelayCommand(async (o) => await imgOpener.Save(holst, container));
+        private ImageDialogOpener imgOpener;
         private InkStrokeContainer container;
+        public InkPresenter Presenter { get => presenter; set 
+            {
+
+                container = value.StrokeContainer;
+                imgOpener = new ImageDialogOpener();
+                Set(ref presenter, value); } }
         private InkPresenter presenter;
-        public Images(InkPresenter presenter) {
-            this.container = presenter.StrokeContainer;
-            this.presenter = presenter;
-            imgOpener = new ImageDialogOpener(container);
+        public Images() {
             holst = new ThumbnailHolst() { Height = (int)Height, Width = (int)Width, Name = namePicture };
             scaledHeight = height;
             scaledWidth = width;
         }
+
+        public ICommand InitPresenterCommand => new RelayCommand(InitPresenter);
+        private void InitPresenter(object o) {
+            if (o is InkPresenter pr) {
+                Presenter = pr;
+            }
+        }
+
 
         public ICommand ShareCommand => new RelayCommand(async(o) => {
             Provider provider = new Provider(holst, container);

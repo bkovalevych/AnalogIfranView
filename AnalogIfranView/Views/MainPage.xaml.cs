@@ -28,27 +28,24 @@ namespace AnalogIfranView.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private HomeViewModel vm;
         public MainPage()
         {
             this.InitializeComponent();
-            this.ImagesProp = new Images(inkCanvas.InkPresenter);
-            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
-            undoRedo = new UndoRedoViewModel(inkCanvas.InkPresenter);
+            vm = new HomeViewModel();
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
-            // Ensure the current window is active
             Window.Current.Activate();
         }
-        public Images ImagesProp { get; set; }
-        public UndoRedoViewModel undoRedo { get; set; }
+        
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             if (e.Parameter is IHolst holst) {
-                ImagesProp.InitByHolst(holst);
+                vm.SelectedPage?.Images.InitByHolst(holst);
             }
         }
 
         private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e) {
             var deferral = e.GetDeferral();
-            bool shouldClose = await ImagesProp.Save();
+            bool shouldClose = await vm.SaveOnClose();
             if (shouldClose == false) {
                 e.Handled = true;
             }
