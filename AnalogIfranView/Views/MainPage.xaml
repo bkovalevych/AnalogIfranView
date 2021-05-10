@@ -91,60 +91,71 @@
         </muxc:MenuBar>
         <controls:TabView Grid.Row="1" 
                           AddTabButtonCommand="{x:Bind vm.AddPage}"
-                          TabItemsSource="{x:Bind vm.Pages}"
-                          SelectedItem="{x:Bind vm.SelectedPage}"
+                          AllowDropTabs="True"
+                          SelectedIndex="{x:Bind vm.SelectedIndex, Mode=TwoWay}"
+                          TabItemsSource="{x:Bind vm.Pages, Mode=TwoWay}"
+                          SelectedItem="{x:Bind vm.SelectedPage, Mode=TwoWay}"
                           DataContext="{x:Bind vm.SelectedPage}"
+                          
                           >
             <controls:TabView.TabItemTemplate>
                 <DataTemplate>
-                    <Grid >
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Margin="10"  Grid.Row="0" Orientation="Horizontal">
-                            <InkToolbar >
-                                <InkToolbarCustomToolButton Name="undoButton" ToolTipService.ToolTip="{helper:ResourceString Name=undo}" Command="{Binding UndoRedoViewModel.UndoCommand}">
-                                    <SymbolIcon Symbol="Undo"/>
-                                </InkToolbarCustomToolButton>
-                                <InkToolbarCustomToolButton Name="redoButton" ToolTipService.ToolTip="{helper:ResourceString Name=redo}" Command="{Binding UndoRedoViewModel.RedoCommand}">
-                                    <SymbolIcon Symbol="Redo"/>
-                                </InkToolbarCustomToolButton>
-                            </InkToolbar>
-                            <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{Binding Images.Zoom, Mode=TwoWay}"/>
-                            <Button Content="{helper:ResourceString Name=share}" Command="{Binding Images.ShareCommand}"/>
-                        </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                            <ScrollViewer.Content>
-                                <Grid Margin="20">
-                                    <Image 
+                    <controls:TabViewItem>
+                        <controls:TabViewItem.Header>
+                            <TextBlock Text="{Binding Images.NamePicture}"/>
+                        </controls:TabViewItem.Header>
+                        <controls:TabViewItem.Content>
+                            <Grid >
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Margin="10"  Grid.Row="0" Orientation="Horizontal">
+                                    <InkToolbar TargetInkCanvas="{Binding ElementName=canvas}">
+                                        <InkToolbarCustomToolButton Name="undoButton" ToolTipService.ToolTip="{helper:ResourceString Name=undo}" Command="{Binding UndoRedoViewModel.UndoCommand}">
+                                            <SymbolIcon Symbol="Undo"/>
+                                        </InkToolbarCustomToolButton>
+                                        <InkToolbarCustomToolButton Name="redoButton" ToolTipService.ToolTip="{helper:ResourceString Name=redo}" Command="{Binding UndoRedoViewModel.RedoCommand}">
+                                            <SymbolIcon Symbol="Redo"/>
+                                        </InkToolbarCustomToolButton>
+                                    </InkToolbar>
+                                    <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{Binding Images.Zoom, Mode=TwoWay}"/>
+                                    <Button Content="{helper:ResourceString Name=share}" Command="{Binding Images.ShareCommand}"/>
+                                </StackPanel>
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                    <ScrollViewer.Content>
+                                        <Grid Margin="20">
+                                            <Image 
                                         Source="{Binding Images.Image, Mode=TwoWay}"
                                         Width="{Binding Images.ScaledWidth, Mode=OneWay}"
                                         Height="{Binding Images.ScaledHeight, Mode=OneWay}">
-                                    </Image>
-                                    <Border BorderThickness="1" BorderBrush="Aqua"
+                                            </Image>
+                                            <Border BorderThickness="1" BorderBrush="Aqua"
                                             Width="{Binding Images.Width, Mode=OneWay}"
                                             Height="{Binding Images.Height, Mode=OneWay}">
 
-                                        <Border.RenderTransform>
-                                            <ScaleTransform 
+                                                <Border.RenderTransform>
+                                                    <ScaleTransform 
                                                 ScaleX="{Binding Images.Zoom, Mode=OneWay}"
                                                 ScaleY="{Binding Images.Zoom, Mode=OneWay}"/>
-                                        </Border.RenderTransform>
-                                        <InkCanvas>
-                                            <Interactivity:Interaction.Behaviors>
-                                                <Interactions:EventTriggerBehavior EventName="Loaded">
-                                                    <Interactions:InvokeCommandAction Command="{Binding InitPresenterCommand}" 
-                                                                                      CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
-                                                </Interactions:EventTriggerBehavior>
-                                            </Interactivity:Interaction.Behaviors>
-                                        </InkCanvas>
-                                    </Border>
-                                </Grid>
-                            </ScrollViewer.Content>
-                        </ScrollViewer>
-                    </Grid>
+                                                </Border.RenderTransform>
+                                                <InkCanvas x:Name="canvas">
+                                                    <Interactivity:Interaction.Behaviors>
+                                                        <Interactions:EventTriggerBehavior EventName="Loaded">
+                                                            <Interactions:InvokeCommandAction Command="{Binding InitPresenterCommand}" 
+                                                                                      CommandParameter="{Binding ElementName=canvas, Path=InkPresenter}" />
+                                                        </Interactions:EventTriggerBehavior>
+                                                    </Interactivity:Interaction.Behaviors>
+                                                </InkCanvas>
+                                            </Border>
+                                        </Grid>
+                                    </ScrollViewer.Content>
+                                </ScrollViewer>
+                            </Grid>
+                        </controls:TabViewItem.Content>
+                    </controls:TabViewItem>
+                    
                 </DataTemplate>
             </controls:TabView.TabItemTemplate>
             <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">

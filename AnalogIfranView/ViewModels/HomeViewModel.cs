@@ -17,6 +17,8 @@ namespace AnalogIfranView.ViewModels
         
         public PageHolder SelectedPage { get => selectedPage; set => Set(ref selectedPage, value); }
         private PageHolder selectedPage;
+        public int SelectedIndex { get => selectedindex; set => Set(ref selectedindex, value); }
+        private int selectedindex = -1;
         
         private readonly ImageDialogOpener opener;
 
@@ -24,7 +26,8 @@ namespace AnalogIfranView.ViewModels
         {
             PageHolder new_val = new PageHolder();
             Pages.Add(new_val);
-            SelectedPage = new_val;
+            SelectedIndex = Pages.Count - 1;
+            SelectedPage.Images.NamePicture += Pages.Count.ToString();
         });
         public HomeViewModel() {
             opener = new ImageDialogOpener();

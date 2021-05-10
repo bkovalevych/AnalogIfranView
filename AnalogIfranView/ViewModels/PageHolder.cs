@@ -34,9 +34,25 @@ namespace AnalogIfranView.ViewModels
                     | Windows.UI.Core.CoreInputDeviceTypes.Pen;
             }
             if (o is ContentPresenter cp) {
-                //Almost Done int childrenCount = VisualTreeHelper.GetChildrenCount();
+                var children = VisualTreeHelper.GetChild(cp, 0);
+                var parent = VisualTreeHelper.GetParent(cp);
+                StackPanel sp = VisualTreeHelper.GetChild(children, 0) as StackPanel;
+                InkToolbar toolbar = sp.Children[0] as InkToolbar;
+
+                ScrollViewer sw = VisualTreeHelper.GetChild(children, 1) as ScrollViewer;
+                var content = VisualTreeHelper.GetChild(sw, 0);
+                var border = (VisualTreeHelper.GetChild((VisualTreeHelper.GetChild(content, 0) as Grid).Children[0], 0) as Grid).Children[1] as Border;
+                InkCanvas canvas = border.Child as InkCanvas;
+                // if no border
+                toolbar.TargetInkCanvas = canvas;
+                presenter = canvas.InkPresenter;
+                images.Presenter = presenter;
+                undoRedoViewModel = new UndoRedoViewModel(presenter);
+                presenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse
+                    | Windows.UI.Core.CoreInputDeviceTypes.Pen;
             }
         }
+        
         public PageHolder() {
             images = new Images();
 
