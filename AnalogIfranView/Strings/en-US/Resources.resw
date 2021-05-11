@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="batchConversion" xml:space="preserve">
-    <value>Roll-ups</value>
+    <value>Convolve/ Rename</value>
   </data>
   <data name="captureVisibleWindowArea" xml:space="preserve">
     <value>Capture the visible part of the window</value>
@@ -53,7 +53,6 @@
   </data>
   <data name="file" xml:space="preserve">
     <value>File</value>
-    <comment>Файл</comment>
   </data>
   <data name="insertHorizontalStrip" xml:space="preserve">
     <value>Insert horizontally</value>
@@ -75,7 +74,6 @@
   </data>
   <data name="open" xml:space="preserve">
     <value>Open</value>
-    <comment>Hello</comment>
   </data>
   <data name="paste" xml:space="preserve">
     <value>Paste</value>
@@ -105,7 +103,7 @@
     <value>Save</value>
   </data>
   <data name="saveAs" xml:space="preserve">
-    <value>Save view as</value>
+    <value>Save as</value>
   </data>
   <data name="searchFiles" xml:space="preserve">
     <value>Search files</value>
@@ -124,5 +122,56 @@
   </data>
   <data name="language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="createThumbnail" xml:space="preserve">
+    <value>Create a sketch</value>
+  </data>
+  <data name="height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="nameThumbnail" xml:space="preserve">
+    <value>Figure Caption</value>
+  </data>
+  <data name="thumbnailMenu" xml:space="preserve">
+    <value>Sketch</value>
+  </data>
+  <data name="width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="invalidHeight" xml:space="preserve">
+    <value>should only contain numbers and be more than 0</value>
+  </data>
+  <data name="invalidName" xml:space="preserve">
+    <value>shouldn't be empty</value>
+  </data>
+  <data name="invalidWidth" xml:space="preserve">
+    <value>should only contain numbers and be more than 0</value>
+  </data>
+  <data name="resize" xml:space="preserve">
+    <value>zoom</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="setLandscapeSize" xml:space="preserve">
+    <value>standard album</value>
+  </data>
+  <data name="setPortraitSize" xml:space="preserve">
+    <value>standard portrait</value>
+  </data>
+  <data name="resizeSource" xml:space="preserve">
+    <value>Resize</value>
+  </data>
+  <data name="share" xml:space="preserve">
+    <value>Share</value>
   </data>
 </root>

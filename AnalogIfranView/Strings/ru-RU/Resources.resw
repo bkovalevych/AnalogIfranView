@@ -120,6 +120,9 @@
   <data name="batchConversion" xml:space="preserve">
     <value>Свертки\ Переименовать</value>
   </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
   <data name="captureVisibleWindowArea" xml:space="preserve">
     <value>Захват видимой части окна</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="copyFile" xml:space="preserve">
     <value>Скопировать файл</value>
+  </data>
+  <data name="createThumbnail" xml:space="preserve">
+    <value>Создать набросок</value>
   </data>
   <data name="cropSelection" xml:space="preserve">
     <value>Обрезать выделение</value>
@@ -158,7 +164,9 @@
   </data>
   <data name="file" xml:space="preserve">
     <value>Файл</value>
-    <comment>Файл</comment>
+  </data>
+  <data name="height" xml:space="preserve">
+    <value>Высота</value>
   </data>
   <data name="insertHorizontalStrip" xml:space="preserve">
     <value>Вставить горизонтально</value>
@@ -172,6 +180,15 @@
   <data name="insertVerticalStrip" xml:space="preserve">
     <value>Вставить вертикально</value>
   </data>
+  <data name="invalidHeight" xml:space="preserve">
+    <value>должно содержать только цифры и быть больше 0</value>
+  </data>
+  <data name="invalidName" xml:space="preserve">
+    <value>не должно быть пустым</value>
+  </data>
+  <data name="invalidWidth" xml:space="preserve">
+    <value>должно содержать только цифры и быть больше 0</value>
+  </data>
   <data name="language" xml:space="preserve">
     <value>Язык</value>
   </data>
@@ -181,9 +198,14 @@
   <data name="moveFile" xml:space="preserve">
     <value>Передвинуть файл</value>
   </data>
+  <data name="nameThumbnail" xml:space="preserve">
+    <value>Название рисунка</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>нет</value>
+  </data>
   <data name="open" xml:space="preserve">
     <value>Открыть</value>
-    <comment>Hello</comment>
   </data>
   <data name="paste" xml:space="preserve">
     <value>Вставить</value>
@@ -209,6 +231,12 @@
   <data name="renameFile" xml:space="preserve">
     <value>Переименовать файл</value>
   </data>
+  <data name="resize" xml:space="preserve">
+    <value>Увеличить / Уменьшить</value>
+  </data>
+  <data name="resizeSource" xml:space="preserve">
+    <value>Изменить размер</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
@@ -218,8 +246,17 @@
   <data name="searchFiles" xml:space="preserve">
     <value>Поиск файлов</value>
   </data>
+  <data name="setLandscapeSize" xml:space="preserve">
+    <value>стандартный альбомный</value>
+  </data>
+  <data name="setPortraitSize" xml:space="preserve">
+    <value>стандартный портрет</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="share" xml:space="preserve">
+    <value>Поделиться</value>
   </data>
   <data name="showPaintDialog" xml:space="preserve">
     <value>Кисть</value>
@@ -227,10 +264,19 @@
   <data name="slideshow" xml:space="preserve">
     <value>Показ слайдов</value>
   </data>
+  <data name="thumbnailMenu" xml:space="preserve">
+    <value>Набросок</value>
+  </data>
   <data name="thumbnails" xml:space="preserve">
     <value>Эскизы</value>
   </data>
   <data name="undo" xml:space="preserve">
     <value>Шаг назад</value>
+  </data>
+  <data name="width" xml:space="preserve">
+    <value>Ширина</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Да</value>
   </data>
 </root>

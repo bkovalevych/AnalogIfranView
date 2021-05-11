@@ -8,7 +8,7 @@
       <group id="ANALOGIFRANVIEW/STRINGS/RU-RU/RESOURCES.RESW" datatype="resx">
         <trans-unit id="batchConversion" translate="yes" xml:space="preserve">
           <source>Свертки\ Переименовать</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Roll-ups</target>
+          <target state="translated">Convolve/ Rename</target>
         </trans-unit>
         <trans-unit id="captureVisibleWindowArea" translate="yes" xml:space="preserve">
           <source>Захват видимой части окна</source>
@@ -61,7 +61,6 @@
         <trans-unit id="file" translate="yes" xml:space="preserve">
           <source>Файл</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">File</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">Файл</note>
         </trans-unit>
         <trans-unit id="insertHorizontalStrip" translate="yes" xml:space="preserve">
           <source>Вставить горизонтально</source>
@@ -90,7 +89,6 @@
         <trans-unit id="open" translate="yes" xml:space="preserve">
           <source>Открыть</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Open</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">Hello</note>
         </trans-unit>
         <trans-unit id="paste" translate="yes" xml:space="preserve">
           <source>Вставить</source>
@@ -130,7 +128,7 @@
         </trans-unit>
         <trans-unit id="saveAs" translate="yes" xml:space="preserve">
           <source>Сохранить как</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Save view as</target>
+          <target state="translated">Save as</target>
         </trans-unit>
         <trans-unit id="searchFiles" translate="yes" xml:space="preserve">
           <source>Поиск файлов</source>
@@ -159,7 +157,71 @@
         </trans-unit>
         <trans-unit id="settings" translate="yes" xml:space="preserve">
           <source>Настройки</source>
-          <target state="new">Настройки</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Settings</target>
+        </trans-unit>
+        <trans-unit id="cancel" translate="yes" xml:space="preserve">
+          <source>Отмена</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Cancel</target>
+        </trans-unit>
+        <trans-unit id="createThumbnail" translate="yes" xml:space="preserve">
+          <source>Создать набросок</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Create a sketch</target>
+        </trans-unit>
+        <trans-unit id="height" translate="yes" xml:space="preserve">
+          <source>Высота</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Height</target>
+        </trans-unit>
+        <trans-unit id="nameThumbnail" translate="yes" xml:space="preserve">
+          <source>Название рисунка</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Figure Caption</target>
+        </trans-unit>
+        <trans-unit id="thumbnailMenu" translate="yes" xml:space="preserve">
+          <source>Набросок</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sketch</target>
+        </trans-unit>
+        <trans-unit id="width" translate="yes" xml:space="preserve">
+          <source>Ширина</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Width</target>
+        </trans-unit>
+        <trans-unit id="invalidHeight" translate="yes" xml:space="preserve">
+          <source>должно содержать только цифры и быть больше 0</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">should only contain numbers and be more than 0</target>
+        </trans-unit>
+        <trans-unit id="invalidName" translate="yes" xml:space="preserve">
+          <source>не должно быть пустым</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">shouldn't be empty</target>
+        </trans-unit>
+        <trans-unit id="invalidWidth" translate="yes" xml:space="preserve">
+          <source>должно содержать только цифры и быть больше 0</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">should only contain numbers and be more than 0</target>
+        </trans-unit>
+        <trans-unit id="resize" translate="yes" xml:space="preserve">
+          <source>Увеличить / Уменьшить</source>
+          <target state="translated">zoom</target>
+        </trans-unit>
+        <trans-unit id="no" translate="yes" xml:space="preserve">
+          <source>нет</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">no</target>
+        </trans-unit>
+        <trans-unit id="yes" translate="yes" xml:space="preserve">
+          <source>Да</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">OK</target>
+        </trans-unit>
+        <trans-unit id="setLandscapeSize" translate="yes" xml:space="preserve">
+          <source>стандартный альбомный</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">standard album</target>
+        </trans-unit>
+        <trans-unit id="setPortraitSize" translate="yes" xml:space="preserve">
+          <source>стандартный портрет</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">standard portrait</target>
+        </trans-unit>
+        <trans-unit id="resizeSource" translate="yes" xml:space="preserve">
+          <source>Изменить размер</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Resize</target>
+        </trans-unit>
+        <trans-unit id="share" translate="yes" xml:space="preserve">
+          <source>Поделиться</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Share</target>
         </trans-unit>
       </group>
     </body>

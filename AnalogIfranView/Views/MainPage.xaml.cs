@@ -19,18 +19,37 @@ namespace AnalogIfranView.Views
     using Helpers;
     using Windows.Globalization;
     using ViewModels;
+    using Models;
+    using Windows.UI.Core.Preview;
+
     /// <summary>
     /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private HomeViewModel vm;
         public MainPage()
         {
-            //Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US";
             this.InitializeComponent();
-            this.ImagesProp = new Images();
-            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
+            vm = new HomeViewModel();
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
+            Window.Current.Activate();
         }
-        public Images ImagesProp { get; set; }
+        
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            if (e.Parameter is IHolst holst) {
+                vm.SelectedPage?.Images.InitByHolst(holst);
+            }
+        }
+
+        private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e) {
+            var deferral = e.GetDeferral();
+            bool shouldClose = await vm.SaveOnClose();
+            if (shouldClose == false) {
+                e.Handled = true;
+            }
+            deferral.Complete();
+        }
+
     }
 }
