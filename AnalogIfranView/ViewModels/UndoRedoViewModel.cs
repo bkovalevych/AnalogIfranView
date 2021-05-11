@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Windows.UI.Input.Inking;
+using System.Windows.Input;
 
 namespace AnalogIfranView.ViewModels
 {
     using Models;
-    using Windows.UI.Input.Inking;
     using Helpers;
-    using System.Windows.Input;
-
-    public class UndoRedoViewModel
+    
+    public class UndoRedoViewModel : Observable
     {
-        private UndoRedoService service;
-        public UndoRedoViewModel(InkPresenter inkPresenter) {
+        private readonly UndoRedoService service;
+        public UndoRedoViewModel() {
             service = new UndoRedoService();
-            service.ObservePresenter(inkPresenter);
         }
-
+        public InkPresenter Presenter { get => presenter; set
+            {
+                service.ObservePresenter(value);
+                Set(ref presenter, value);
+            }
+        }
+        private InkPresenter presenter;
         public ICommand UndoCommand => new RelayCommand(Undo);
         private void Undo(object o) {
             service.UndoOperation();
@@ -28,6 +28,5 @@ namespace AnalogIfranView.ViewModels
         private void Redo(object o) {
             service.RedoOperation();
         }
-
     }
 }

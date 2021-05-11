@@ -126,7 +126,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\NumberConverter.cs" />
-    <Compile Include="CustomProperties\CustomPropExample.cs" />
     <Compile Include="Helpers\LanguageSwitcher.cs" />
     <Compile Include="Helpers\NavigationService.cs" />
     <Compile Include="Helpers\Observable.cs" />

@@ -147,7 +147,6 @@ namespace AnalogIfranView.ViewModels
             }
         }
 
-
         public ICommand ShareCommand => new RelayCommand(async(o) => {
             Provider provider = new Provider(holst, container);
             await provider.GetRef();

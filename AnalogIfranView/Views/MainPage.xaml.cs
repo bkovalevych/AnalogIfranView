@@ -19,7 +19,6 @@ namespace AnalogIfranView.Views
     using Helpers;
     using Windows.Globalization;
     using ViewModels;
-    using CustomProperties;
     using Models;
     using Windows.UI.Core.Preview;
 

@@ -20,6 +20,7 @@ namespace AnalogIfranView.IOServices
     using Models;
     using Windows.ApplicationModel.Resources;
     using Windows.Storage.AccessCache;
+    using Windows.UI.Popups;
     using Windows.UI.Xaml.Controls;
 
     public class ImageDialogOpener
@@ -120,23 +121,31 @@ namespace AnalogIfranView.IOServices
 
         public async Task<bool> SaveOnClose(Action savingAction) {
             var resource = ResourceLoader.GetForCurrentView();
-            ContentDialog closeDialog = new ContentDialog {
-                Title = resource.GetString("save"),
-                Content = resource.GetString("save") + "?",
-                CloseButtonText = resource.GetString("cancel"),
-                PrimaryButtonText = resource.GetString("yes"),
-                SecondaryButtonText = resource.GetString("no"),
-            };
-            ContentDialogResult result = await closeDialog.ShowAsync();
-            switch(result) {
-                case ContentDialogResult.Primary:
+            MessageDialog closeDialog = new MessageDialog(resource.GetString("save") + "?");
+            bool result = false;
+            closeDialog.Commands.Add(new UICommand(
+                resource.GetString("yes"),
+                new UICommandInvokedHandler((command) => {
+                    result = true;
                     savingAction();
-                    return true;
-                case ContentDialogResult.Secondary:
-                    return true;
-                default:
-                    return false;
-            }
+                    })
+                ));
+            closeDialog.Commands.Add(new UICommand(
+                resource.GetString("no"),
+                new UICommandInvokedHandler((command) => {
+                    result = true;
+                })
+                ));
+            closeDialog.Commands.Add(new UICommand(
+                resource.GetString("cancel"),
+                new UICommandInvokedHandler((command) => {
+                    result = false;
+                })
+                ));
+            closeDialog.CancelCommandIndex = 2;
+            closeDialog.DefaultCommandIndex = 0;
+            await closeDialog.ShowAsync();
+            return result;
         }
 
         public static async Task<ImageHolst> StreamToHolst(IRandomAccessStream stream, string fileName) {

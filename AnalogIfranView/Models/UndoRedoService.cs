@@ -54,7 +54,9 @@ namespace AnalogIfranView.Models
 
         public void ObservePresenter(InkPresenter presenter) {
             this.presenter = presenter;
-            presenter.StrokesCollected += Presenter_StrokesCollected; 
+            if (presenter != null) {
+                presenter.StrokesCollected += Presenter_StrokesCollected;
+            }
         }
 
         public ICommand ObservePresenterCommand => new RelayCommand((o) =>
