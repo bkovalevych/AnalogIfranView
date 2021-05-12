@@ -8,10 +8,12 @@ namespace AnalogIfranView.Helpers
 {
     public class ThemeSwitcher : INotifyPropertyChanged
     {
-        public ThemeSwitcher() {
-            
+        public ThemeSwitcher()
+        {
+
         }
-        public bool IsLight { 
+        public bool IsLight
+        {
             set
             {
                 ApplicationData.Current.LocalSettings.Values["themSetting"] = value ? 0 : 1;
@@ -21,7 +23,8 @@ namespace AnalogIfranView.Helpers
             get
             {
                 object val = ApplicationData.Current.LocalSettings.Values["themSetting"];
-                if (val != null) {
+                if(val != null)
+                {
                     return (int)val == 0;
                 }
                 int theme = App.Current.RequestedTheme == ApplicationTheme.Light ? 0 : 1;
@@ -31,7 +34,8 @@ namespace AnalogIfranView.Helpers
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnChanged(string param) {
+        public void OnChanged(string param)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(param));
         }
         private static readonly Lazy<ThemeSwitcher> instance = new Lazy<ThemeSwitcher>(() => new ThemeSwitcher());

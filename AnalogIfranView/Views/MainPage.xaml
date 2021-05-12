@@ -8,7 +8,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:dep="using:AnalogIfranView.CustomProperties" 
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     xmlns:converter="using:AnalogIfranView.Converters"
@@ -96,7 +95,6 @@
                           TabItemsSource="{x:Bind vm.Pages, Mode=TwoWay}"
                           SelectedItem="{x:Bind vm.SelectedPage, Mode=TwoWay}"
                           DataContext="{x:Bind vm.SelectedPage}"
-                          
                           >
             <controls:TabView.TabItemTemplate>
                 <DataTemplate>
@@ -106,7 +104,6 @@
                         </controls:TabViewItem.Header>
                         <controls:TabViewItem.Content>
                             <Grid >
-
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="*"/>
@@ -132,14 +129,8 @@
                                         Height="{Binding Images.ScaledHeight, Mode=OneWay}">
                                             </Image>
                                             <Border BorderThickness="1" BorderBrush="Aqua"
-                                            Width="{Binding Images.Width, Mode=OneWay}"
-                                            Height="{Binding Images.Height, Mode=OneWay}">
-
-                                                <Border.RenderTransform>
-                                                    <ScaleTransform 
-                                                ScaleX="{Binding Images.Zoom, Mode=OneWay}"
-                                                ScaleY="{Binding Images.Zoom, Mode=OneWay}"/>
-                                                </Border.RenderTransform>
+                                            Width="{Binding Images.ScaledWidth, Mode=OneWay}"
+                                            Height="{Binding Images.ScaledHeight, Mode=OneWay}">
                                                 <InkCanvas x:Name="canvas">
                                                     <Interactivity:Interaction.Behaviors>
                                                         <Interactions:EventTriggerBehavior EventName="Loaded">

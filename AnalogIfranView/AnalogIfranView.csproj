@@ -136,9 +136,9 @@
     <Compile Include="IOServices\ImageDialogOpener.cs" />
     <Compile Include="IOServices\ImageResizer.cs" />
     <Compile Include="IOServices\RetrieverSharedTarget.cs" />
-    <Compile Include="Models\Holst\IHolst.cs" />
-    <Compile Include="Models\Holst\ImageHolst.cs" />
-    <Compile Include="Models\Holst\ThumbnailHolst.cs" />
+    <Compile Include="Models\CanvasData\ICanvasData.cs" />
+    <Compile Include="Models\CanvasData\ImageCanvasData.cs" />
+    <Compile Include="Models\CanvasData\ThumbnailCanvasData.cs" />
     <Compile Include="IOServices\Provider.cs" />
     <Compile Include="Models\UndoRedoService.cs" />
     <Compile Include="ViewModels\Images.cs" />

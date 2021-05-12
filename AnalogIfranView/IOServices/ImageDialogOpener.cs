@@ -1,104 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.IO;
-using System.Diagnostics;
 using Windows.UI.Input.Inking;
-using Microsoft.Graphics.Canvas;
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace AnalogIfranView.IOServices
 {
     using Models;
-    using Windows.ApplicationModel.Resources;
-    using Windows.Storage.AccessCache;
-    using Windows.UI.Popups;
-    using Windows.UI.Xaml.Controls;
 
     public class ImageDialogOpener
     {
         private SoftwareBitmap softwareBitmap;
         private string faToken;
-        public async Task<ImageHolst> OpenImageDialog() {
-            var picker = new FileOpenPicker();
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+
+        public async Task<ImageCanvasData> OpenImageDialog()
+        {
+            var picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".png");
 
-            StorageFile file = await picker.PickSingleFileAsync();
-            if (file == null) {
+            var file = await picker.PickSingleFileAsync();
+            if(file == null)
+            {
                 return null;
             }
             faToken = StorageApplicationPermissions.FutureAccessList.Add(file);
-            ImageProperties props = await file.Properties.GetImagePropertiesAsync();
-            using(IRandomAccessStream fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read)) {
+            var props = await file.Properties.GetImagePropertiesAsync();
+            using(IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+            {
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
                 softwareBitmap = await decoder.GetSoftwareBitmapAsync();
             }
-            using (IRandomAccessStream fileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read)) {
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.DecodePixelHeight = (int)props.Height;
-                bitmapImage.DecodePixelWidth = (int)props.Width;
+            using(IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                var bitmapImage = new BitmapImage
+                {
+                    DecodePixelHeight = (int)props.Height,
+                    DecodePixelWidth = (int)props.Width
+                };
                 await bitmapImage.SetSourceAsync(fileStream);
-                ImageHolst result = new ImageHolst() {
+                var result = new ImageCanvasData()
+                {
                     FullPath = file.Path,
                     Height = (int)props.Height,
                     Width = (int)props.Width,
                     Image = softwareBitmap,
-                    imageSRC = bitmapImage,
+                    ImageSRC = bitmapImage,
                     Name = file.DisplayName
                 };
                 return result;
             }
         }
 
-       
-        public ImageDialogOpener() {
-             
+        public ImageDialogOpener()
+        {
+
         }
 
-        public async Task SaveImageDialog(IHolst holst, InkStrokeContainer container) {
+        public async Task SaveImageDialog(ICanvasData holst, InkStrokeContainer container)
+        {
             var picker = new FileSavePicker();
             picker.FileTypeChoices.Add("JPEG images", new List<string>() { ".jpg" });
             picker.FileTypeChoices.Add("PNG images", new List<string>() { ".png" });
             picker.DefaultFileExtension = ".jpg";
             picker.SuggestedFileName = holst.Name;
             picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            StorageFile storageFile = await picker.PickSaveFileAsync();
-            if (storageFile == null) {
+            var storageFile = await picker.PickSaveFileAsync();
+            if(storageFile == null)
+            {
                 return;
             }
             faToken = StorageApplicationPermissions.FutureAccessList.Add(storageFile);
             holst.FullPath = storageFile.Path;
-            softwareBitmap = await holst.SavedBitmap(container);
+            softwareBitmap = await holst.SaveToBitmap(container);
             await WriteSoftwareBitmapToFile(storageFile);
         }
 
-        private async Task WriteSoftwareBitmapToFile(StorageFile storageFile) {
-            using (IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.ReadWrite)) {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(SwitchEncoderId(storageFile.FileType), stream);
+        private async Task WriteSoftwareBitmapToFile(StorageFile storageFile)
+        {
+            using(IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                var encoder = await BitmapEncoder.CreateAsync(SwitchEncoderId(storageFile.FileType), stream);
                 encoder.SetSoftwareBitmap(softwareBitmap);
-                try {
+                try
+                {
                     await encoder.FlushAsync();
                 }
-                catch (Exception e) {
+                catch(Exception e)
+                {
                     Trace.WriteLine(e.Message);
                 }
             }
         }
-        
 
-        private Guid SwitchEncoderId(string fileType) {
-            switch(fileType) {
+        private Guid SwitchEncoderId(string fileType)
+        {
+            switch(fileType)
+            {
                 case ".jpg":
                     return BitmapEncoder.JpegEncoderId;
                 case ".png":
@@ -108,37 +119,44 @@ namespace AnalogIfranView.IOServices
             }
         }
 
-        public async Task Save(IHolst holst, InkStrokeContainer container) {
-            if (holst.FullPath == null) {
-                 await SaveImageDialog(holst, container);
+        public async Task Save(ICanvasData holst, InkStrokeContainer container)
+        {
+            if(holst.FullPath == null)
+            {
+                await SaveImageDialog(holst, container);
             }
-            else {
-                softwareBitmap = await holst.SavedBitmap(container);
-                StorageFile file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(faToken);
+            else
+            {
+                softwareBitmap = await holst.SaveToBitmap(container);
+                var file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(faToken);
                 await WriteSoftwareBitmapToFile(file);
             }
         }
 
-        public async Task<bool> SaveOnClose(Action savingAction) {
+        public async Task<bool> SaveOnClose(Action savingAction)
+        {
             var resource = ResourceLoader.GetForCurrentView();
-            MessageDialog closeDialog = new MessageDialog(resource.GetString("save") + "?");
+            var closeDialog = new MessageDialog(resource.GetString("save") + "?");
             bool result = false;
             closeDialog.Commands.Add(new UICommand(
                 resource.GetString("yes"),
-                new UICommandInvokedHandler((command) => {
+                new UICommandInvokedHandler((command) =>
+                {
                     result = true;
                     savingAction();
-                    })
+                })
                 ));
             closeDialog.Commands.Add(new UICommand(
                 resource.GetString("no"),
-                new UICommandInvokedHandler((command) => {
+                new UICommandInvokedHandler((command) =>
+                {
                     result = true;
                 })
                 ));
             closeDialog.Commands.Add(new UICommand(
                 resource.GetString("cancel"),
-                new UICommandInvokedHandler((command) => {
+                new UICommandInvokedHandler((command) =>
+                {
                     result = false;
                 })
                 ));
@@ -148,21 +166,23 @@ namespace AnalogIfranView.IOServices
             return result;
         }
 
-        public static async Task<ImageHolst> StreamToHolst(IRandomAccessStream stream, string fileName) {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
+        public static async Task<ImageCanvasData> StreamToHolst(IRandomAccessStream stream, string fileName)
+        {
+            var decoder = await BitmapDecoder.CreateAsync(stream);
+            var bitmap = await decoder.GetSoftwareBitmapAsync();
             stream.Seek(0);
-            BitmapImage imgSRC = new BitmapImage();
+            var imgSRC = new BitmapImage();
             imgSRC.SetSource(stream);
 
-            ImageHolst holst = new ImageHolst() {
+            var canvasData = new ImageCanvasData()
+            {
                 Width = bitmap.PixelWidth,
                 Height = bitmap.PixelHeight,
                 Image = bitmap,
-                imageSRC = imgSRC,
+                ImageSRC = imgSRC,
                 Name = fileName
             };
-            return holst;
+            return canvasData;
         }
     }
 }

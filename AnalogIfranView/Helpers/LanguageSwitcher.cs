@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+
 
 namespace AnalogIfranView.Helpers
 {
@@ -26,25 +23,30 @@ namespace AnalogIfranView.Helpers
                 OnChanged(nameof(CurrentLanguage));
             }
         }
-        
+
         public IReadOnlyList<string> Languages
         {
             get => Windows.Globalization.ApplicationLanguages.ManifestLanguages;
         }
-        
 
-        public LanguageSwitcher() {
+
+        public LanguageSwitcher()
+        {
             object val = ApplicationData.Current.LocalSettings.Values["language"];
-            if (val != null) {
+            if(val != null)
+            {
                 currentLanguage = (string)val;
-            } else {
+            }
+            else
+            {
                 currentLanguage = Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride;
             }
         }
-       
+
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnChanged(string param) {
+        public void OnChanged(string param)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(param));
         }
 

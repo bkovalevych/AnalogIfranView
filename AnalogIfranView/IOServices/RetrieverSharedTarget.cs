@@ -1,10 +1,6 @@
-﻿using AnalogIfranView.Helpers;
-using AnalogIfranView.Models;
+﻿using AnalogIfranView.Models;
 using AnalogIfranView.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
@@ -20,42 +16,51 @@ namespace AnalogIfranView.IOServices
 {
     public static class RetrieverSharedTarget
     {
-        public static async Task OnShareTargetActivated(ShareTargetActivatedEventArgs args) {
-            ShareOperation shareOperation = args.ShareOperation;
+        public static async Task OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            var shareOperation = args.ShareOperation;
             shareOperation.ReportStarted();
-            if (shareOperation.Data.Contains(StandardDataFormats.StorageItems)) {
+            if(shareOperation.Data.Contains(StandardDataFormats.StorageItems))
+            {
                 var items = await shareOperation.Data.GetStorageItemsAsync();
                 var item = items[0];
-                if (item is StorageFile file) {
-                    using (var stream = await file.OpenReadAsync()) {
+                if(item is StorageFile file)
+                {
+                    using(var stream = await file.OpenReadAsync())
+                    {
                         await ProcessStream(stream, shareOperation, file.DisplayName);
                     }
                 }
-            } else if (shareOperation.Data.Contains(StandardDataFormats.Bitmap)) {
+            }
+            else if(shareOperation.Data.Contains(StandardDataFormats.Bitmap))
+            {
                 var reference = await shareOperation.Data.GetBitmapAsync();
-                using (var stream = await reference.OpenReadAsync()) {
+                using(var stream = await reference.OpenReadAsync())
+                {
                     await ProcessStream(stream, shareOperation, "new File");
                 }
-             }
+            }
         }
 
-        private static async Task ProcessStream(IRandomAccessStream stream, ShareOperation shareOperation, string fileName) {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            SoftwareBitmap bitmap = await decoder.GetSoftwareBitmapAsync();
+        private static async Task ProcessStream(IRandomAccessStream stream, ShareOperation shareOperation, string fileName)
+        {
+            var decoder = await BitmapDecoder.CreateAsync(stream);
+            var bitmap = await decoder.GetSoftwareBitmapAsync();
             stream.Seek(0);
             BitmapImage imgSRC = new BitmapImage();
             imgSRC.SetSource(stream);
 
-            ImageHolst holst = new ImageHolst() {
+            ImageCanvasData holst = new ImageCanvasData()
+            {
                 Width = bitmap.PixelWidth,
                 Height = bitmap.PixelHeight,
                 Image = bitmap,
-                imageSRC = imgSRC,
+                ImageSRC = imgSRC,
                 Name = fileName
             };
             shareOperation.ReportDataRetrieved();
 
-            Frame rootFrame = new Frame();
+            var rootFrame = new Frame();
             Window.Current.Content = rootFrame;
             rootFrame.Navigate(typeof(MainPage), holst);
             Window.Current.Activate();
