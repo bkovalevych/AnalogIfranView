@@ -11,7 +11,7 @@ namespace AnalogIfranView.Views
             set; get;
         }
 
-        private Type PathToFunc(string path)
+        private Type GetTypeByPathToPage(string path)
         {
             switch(path)
             {
@@ -25,9 +25,10 @@ namespace AnalogIfranView.Views
                     return typeof(MainPage);
             }
         }
+
         protected override object ProvideValue()
         {
-            return PathToFunc(PathToPage);
+            return GetTypeByPathToPage(PathToPage);
         }
     }
 }

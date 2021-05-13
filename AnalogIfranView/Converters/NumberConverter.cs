@@ -8,17 +8,16 @@ namespace AnalogIfranView.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value.ToString();
+            var input = value.ToString();
+            return Regex.Replace(input, @"\D", "");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             var input = value as string;
             var cleaned = Regex.Replace(input, @"\D", "");
-            if(int.TryParse(cleaned, out int output))
-                return output;
-            else
-                return 0;
+            _ = int.TryParse(cleaned, out int output);
+            return output;
         }
     }
 }

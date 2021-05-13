@@ -126,21 +126,22 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\NumberConverter.cs" />
+    <Compile Include="Converters\TabViewArgsConverter.cs" />
     <Compile Include="Helpers\LanguageSwitcher.cs" />
     <Compile Include="Helpers\NavigationService.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ResourceString.cs" />
     <Compile Include="Helpers\ThemeSwitcher.cs" />
-    <Compile Include="IOServices\FileAssociation.cs" />
-    <Compile Include="IOServices\ImageDialogOpener.cs" />
+    <Compile Include="IOServices\ImageDialogOpenerService.cs" />
     <Compile Include="IOServices\ImageResizer.cs" />
-    <Compile Include="IOServices\RetrieverSharedTarget.cs" />
-    <Compile Include="Models\CanvasData\ICanvasData.cs" />
-    <Compile Include="Models\CanvasData\ImageCanvasData.cs" />
-    <Compile Include="Models\CanvasData\ThumbnailCanvasData.cs" />
-    <Compile Include="IOServices\Provider.cs" />
-    <Compile Include="Models\UndoRedoService.cs" />
+    <Compile Include="IOServices\ImageWriterService.cs" />
+    <Compile Include="IOServices\SharedTargetService.cs" />
+    <Compile Include="Services\CanvasDataService\ICanvasDataService.cs" />
+    <Compile Include="Services\CanvasDataService\ImageCanvasDataService.cs" />
+    <Compile Include="Services\CanvasDataService\ThumbnailCanvasDataService.cs" />
+    <Compile Include="IOServices\ShareImageProvider.cs" />
+    <Compile Include="Services\UndoRedoService.cs" />
     <Compile Include="ViewModels\Images.cs" />
     <Compile Include="ViewModels\PageHolder.cs" />
     <Compile Include="ViewModels\ThumbnailCreateViewModel.cs" />

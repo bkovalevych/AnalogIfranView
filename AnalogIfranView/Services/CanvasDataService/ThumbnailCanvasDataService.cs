@@ -8,9 +8,9 @@ using Windows.Graphics.Imaging;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace AnalogIfranView.Models
+namespace AnalogIfranView.Services
 {
-    public class ThumbnailCanvasData : ICanvasData
+    public class ThumbnailCanvasDataService : ICanvasDataService
     {
         public int Height
         {
@@ -27,6 +27,11 @@ namespace AnalogIfranView.Models
         public string FullPath
         {
             get; set;
+        }
+        public string FutureAccessToken
+        {
+            get;
+            set;
         }
 
         public async Task<SoftwareBitmap> SaveToBitmap(InkStrokeContainer ink)

@@ -20,6 +20,7 @@ namespace AnalogIfranView.ViewModels
         }
         
         private Images images;
+        public InkPresenter Presenter => presenter;
         private InkPresenter presenter;
         
         public ICommand InitPresenterCommand => new RelayCommand(InitPresenter);
@@ -28,6 +29,7 @@ namespace AnalogIfranView.ViewModels
         {
             if(o is InkPresenter pr)
             {
+                pr.StrokeContainer.Clear();
                 presenter = pr;
                 images.Presenter = presenter;
                 undoRedoViewModel.Presenter = presenter;

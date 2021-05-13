@@ -4,7 +4,7 @@ using Windows.UI.Input.Inking;
 namespace AnalogIfranView.ViewModels
 {
     using Helpers;
-    using Models;
+    using Services;
 
     public class UndoRedoViewModel : Observable
     {

@@ -38,11 +38,9 @@ namespace AnalogIfranView
         /// <param name="e">Сведения о запросе и обработке запуска.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
             // Не повторяйте инициализацию приложения, если в окне уже имеется содержимое,
             // только обеспечьте активность окна
-            if(rootFrame == null)
+            if(!(Window.Current.Content is Frame rootFrame))
             {
                 // Создание фрейма, который станет контекстом навигации, и переход к первой странице
                 rootFrame = new Frame();
@@ -97,11 +95,11 @@ namespace AnalogIfranView
         }
         protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
         {
-            await RetrieverSharedTarget.OnShareTargetActivated(args);
+            await SharedTargetService.OnShareTargetActivated(args);
         }
         protected override async void OnFileActivated(FileActivatedEventArgs args)
         {
-            await FileAssociation.OnFileActivated(args);
+            await SharedTargetService.OnFileActivated(args);
             // TODO: Handle file activation
             // The number of files received is args.Files.Size
             // The name of the first file is args.Files[0].Name

@@ -5,11 +5,14 @@ using Windows.ApplicationModel.Resources;
 namespace AnalogIfranView.ViewModels
 {
     using Helpers;
-    using Models;
+    using Services;
     using Views;
 
     public class ThumbnailCreateViewModel : Observable
     {
+        private const int STANDART_WIDTH_LANDSCAPE = 800;
+        private const int STANDART_HEIGHT_LANDSCAPE = 400;
+
         public int Width
         {
             get => width;
@@ -62,19 +65,19 @@ namespace AnalogIfranView.ViewModels
         
         private void SetPortraitSize(object o)
         {
-            Width = 400;
-            Height = 800;
+            Width = STANDART_HEIGHT_LANDSCAPE;
+            Height = STANDART_WIDTH_LANDSCAPE;
         }
 
         public ICommand SetLandscapeSizeCommand => new RelayCommand(SetLandscapeSize);
         
         private void SetLandscapeSize(object o)
         {
-            Width = 800;
-            Height = 400;
+            Width = STANDART_WIDTH_LANDSCAPE;
+            Height = STANDART_HEIGHT_LANDSCAPE;
         }
 
-        private ICanvasData holst;
+        private ICanvasDataService canvasData;
         private readonly ResourceLoader resource = ResourceLoader.GetForCurrentView();
         
         public ICommand CreateThumbnailCommand => new RelayCommand(CreateThumbnail);
@@ -82,20 +85,22 @@ namespace AnalogIfranView.ViewModels
         private void CreateThumbnail(object o)
         {
             Validate();
-            if(!IsValid)
+            if(IsValid)
             {
-                return;
+                if(creatingMode)
+                {
+                    canvasData = new ThumbnailCanvasDataService() { 
+                        Height = Height, 
+                        Width = Width, 
+                        Name = Name };
+                }
+                else
+                {
+                    canvasData.Height = Height;
+                    canvasData.Width = Width;
+                }
             }
-            if(creatingMode)
-            {
-                holst = new ThumbnailCanvasData() { Height = Height, Width = Width, Name = Name };
-            }
-            else
-            {
-                holst.Height = Height;
-                holst.Width = Width;
-            }
-            NavigationService.Instance.Navigate(typeof(MainPage), holst);
+            NavigationService.Instance.Navigate(typeof(MainPage), canvasData);
         }
 
         public bool CreatingMode
@@ -105,12 +110,12 @@ namespace AnalogIfranView.ViewModels
 
         private bool creatingMode = true;
 
-        public void InitByHolst(ICanvasData holst)
+        public void InitByHolst(ICanvasDataService canvasData)
         {
-            this.holst = holst;
-            Width = holst.Width;
-            Height = holst.Height;
-            Name = holst.Name;
+            this.canvasData = canvasData;
+            Width = canvasData.Width;
+            Height = canvasData.Height;
+            Name = canvasData.Name;
             CreatingMode = false;
         }
 

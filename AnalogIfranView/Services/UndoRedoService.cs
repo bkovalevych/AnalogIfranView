@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Input.Inking;
 
-namespace AnalogIfranView.Models
+namespace AnalogIfranView.Services
 {
     public class UndoRedoService
     {
@@ -13,24 +13,22 @@ namespace AnalogIfranView.Models
         
         public void RedoOperation()
         {
-            if(stackOfUndo.Count == 0)
+            if(stackOfUndo.Count != 0)
             {
-                return;
+                currentOperations.Push(stackOfUndo.Pop());
+                var operation = currentOperations.Peek();
+                RestoreValue(operation);
             }
-            currentOperations.Push(stackOfUndo.Pop());
-            var operation = currentOperations.Peek();
-            RestoreValue(operation);
         }
 
         public void UndoOperation()
         {
-            if(currentOperations.Count == 0)
+            if(currentOperations.Count != 0)
             {
-                return;
+                stackOfUndo.Push(currentOperations.Pop());
+                var operation = stackOfUndo.Peek();
+                ClearValue(operation);
             }
-            stackOfUndo.Push(currentOperations.Pop());
-            var operation = stackOfUndo.Peek();
-            ClearValue(operation);
         }
 
         private void ClearValue(BaseOperation operation)

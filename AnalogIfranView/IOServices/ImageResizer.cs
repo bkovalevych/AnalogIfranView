@@ -1,4 +1,4 @@
-﻿using AnalogIfranView.Models;
+﻿using AnalogIfranView.Services;
 using Microsoft.Graphics.Canvas;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Graphics.Imaging;
@@ -12,7 +12,7 @@ namespace AnalogIfranView.IOServices
 
         }
 
-        public void Resize(ref ImageCanvasData imageHolst)
+        public void Resize(ref ImageCanvasDataService imageHolst)
         {
             int width = imageHolst.Width;
             int height = imageHolst.Height;

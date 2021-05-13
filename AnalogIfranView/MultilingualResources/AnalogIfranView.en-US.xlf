@@ -223,6 +223,18 @@
           <source>Поделиться</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Share</target>
         </trans-unit>
+        <trans-unit id="newImageName" translate="yes" xml:space="preserve">
+          <source>Новый набросок</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">New sketch</target>
+        </trans-unit>
+        <trans-unit id="sharedTargetDescription" translate="yes" xml:space="preserve">
+          <source>Изображение с приложения AnalogIfranView</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Image from AnalogIfranView</target>
+        </trans-unit>
+        <trans-unit id="sharedTargetTitle" translate="yes" xml:space="preserve">
+          <source>Поделится изображением</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Share the image</target>
+        </trans-unit>
       </group>
     </body>
   </file>

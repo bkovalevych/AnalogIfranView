@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Input.Inking;
 
-namespace AnalogIfranView.Models
+namespace AnalogIfranView.Services
 {
-    public class Provider
+    public class ShareImageProvider
     {
+        private const string SHARED_TARGET_TITLE_KEY = "sharedTargetTitle";
+        private const string SHARED_TARGET_DESCRIPTION_KEY = "sharedTargetDescription";
         private readonly DataTransferManager dataTransferManager;
-        private readonly ICanvasData holst;
+        private readonly ICanvasDataService holst;
         private readonly InkStrokeContainer container;
+
         private SoftwareBitmap softwareBitmap;
         private RandomAccessStreamReference reference;
 
-        public Provider(ICanvasData holst, InkStrokeContainer container)
+        public ShareImageProvider(ICanvasDataService holst, InkStrokeContainer container)
         {
             this.holst = holst;
             this.container = container;
@@ -37,8 +41,8 @@ namespace AnalogIfranView.Models
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             var dataPackage = args.Request.Data;
-            dataPackage.Properties.Title = "Sharing image";
-            dataPackage.Properties.Description = "Image sharing using AnalogIfranView";
+            dataPackage.Properties.Title = ResourceLoader.GetForCurrentView().GetString(SHARED_TARGET_TITLE_KEY);
+            dataPackage.Properties.Description = ResourceLoader.GetForCurrentView().GetString(SHARED_TARGET_DESCRIPTION_KEY);
 
             dataPackage.Properties.Thumbnail = reference;
             dataPackage.SetBitmap(reference);

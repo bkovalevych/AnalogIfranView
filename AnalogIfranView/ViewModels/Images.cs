@@ -7,20 +7,25 @@ namespace AnalogIfranView.ViewModels
 {
     using Helpers;
     using IOServices;
-    using Models;
+    using Services;
     using System.Numerics;
     using Views;
     using Windows.ApplicationModel.DataTransfer;
+    using Windows.ApplicationModel.Resources;
     using Windows.UI.Input.Inking;
 
     public class Images : Observable
     {
+        private const string DEFAULT_PICTURE_NAME_KEY = "newImageName";
+        
         public string NamePicture
         {
             get => namePicture;
             set => Set(ref namePicture, value);
         }
-        private string namePicture = "New picture";
+
+        private string namePicture = ResourceLoader.GetForCurrentView().GetString(DEFAULT_PICTURE_NAME_KEY);
+        
         public float Zoom
         {
             get => zoom;
@@ -32,24 +37,27 @@ namespace AnalogIfranView.ViewModels
                 Set(ref zoom, value);
             }
         }
+        
         private float zoom = 1.0F;
+        
         private void ResizeCanvas(float currentZoom, float previousZoom)
         {
-
-            var scaleMatrix = Matrix3x2.CreateScale(new Vector2(currentZoom));
-            foreach(var inkStroke in container.GetStrokes())
+            if(container != null)
             {
-                inkStroke.PointTransform = scaleMatrix;
-                var da = inkStroke.DrawingAttributes;
-                var daSize = da.Size;
-                var difference = currentZoom - previousZoom;
-                daSize.Width *= 1 +  difference;
-                daSize.Height *= 1 + difference;
-                da.Size = daSize;
-                inkStroke.DrawingAttributes = da;
-                presenter.UpdateDefaultDrawingAttributes(da);
+                float this_scale = (float)currentZoom / previousZoom;
+                foreach(var inkStroke in container.GetStrokes())
+                {
+                    var scaleMatrix = Matrix3x2.CreateScale(new Vector2(this_scale * inkStroke.PointTransform.M11));
+                    inkStroke.PointTransform = scaleMatrix;
+                    var da = inkStroke.DrawingAttributes;
+                    var daSize = da.Size;
+                    daSize.Width *= this_scale;
+                    daSize.Height *= this_scale;
+                    da.Size = daSize;
+                    inkStroke.DrawingAttributes = da;
+                    presenter.UpdateDefaultDrawingAttributes(da);
+                }
             }
-            
         }
 
         public double ScaledWidth
@@ -97,43 +105,42 @@ namespace AnalogIfranView.ViewModels
         
         private async void OpenFileFunction(object param)
         {
-            holst = await imgOpener.OpenImageDialog();
-            BitmapImage openedValue = ((ImageCanvasData)holst).ImageSRC;
-            if(openedValue == null)
+            canvasData = await imgOpener.OpenImageDialog();
+            if(canvasData is ImageCanvasDataService data)
             {
-                return;
-            }
-            Image = openedValue;
-            Width = openedValue.DecodePixelWidth;
-            Height = openedValue.DecodePixelHeight;
-            Zoom = 1.0F;
-            ScaledWidth = Width;
-            ScaledHeight = Height;
+                var openedValue = data.ImageSRC;
+                Image = openedValue;
+                Width = openedValue.DecodePixelWidth;
+                Height = openedValue.DecodePixelHeight;
+                Zoom = 1.0F;
+                ScaledWidth = Width;
+                ScaledHeight = Height;
+            } 
         }
 
         public ICommand SaveImageCommand => new RelayCommand(SaveFileFunction);
 
         private async void SaveFileFunction(object param)
         {
-            await imgOpener.SaveImageDialog(holst, container);
+            await imgOpener.SaveImageDialog(canvasData, container);
         }
 
         private bool isSendedToResize = false;
 
-        public ICommand ResizeCommand => new RelayCommand((o) =>
+        public ICommand GoToResizeCommand => new RelayCommand((o) =>
         {
             isSendedToResize = true;
-            NavigationService.Instance.Navigate(typeof(CreatingThumbnailDialog), holst);
+            NavigationService.Instance.Navigate(typeof(CreatingThumbnailDialog), canvasData);
         });
 
         public async Task Save()
         {
-            await imgOpener.Save(holst, container);
+            await imgOpener.Save(canvasData, container);
         }
 
-        public ICommand SaveCommand => new RelayCommand(async (o) => await imgOpener.Save(holst, container));
+        public ICommand SaveCommand => new RelayCommand(async (o) => await imgOpener.Save(canvasData, container));
 
-        private ImageDialogOpener imgOpener;
+        private ImageDialogOpenerService imgOpener;
         private InkStrokeContainer container;
         
         public InkPresenter Presenter
@@ -141,26 +148,17 @@ namespace AnalogIfranView.ViewModels
             get => presenter; set
             {
                 container = value.StrokeContainer;
-                value.StrokesCollected += Value_StrokesCollected;
-                imgOpener = new ImageDialogOpener();
+                imgOpener = new ImageDialogOpenerService();
                 Set(ref presenter, value);
             }
         }
 
-        private void Value_StrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
-        {
-            foreach(var stroke in args.Strokes)
-            {
-                //stroke.PointTransform = Matrix3x2.CreateScale(new Vector2(1 /zoom));
-                //stroke.PointTransform = Matrix3x2.CreateTranslation((float)stroke.BoundingRect.X * (1 / zoom - 1), (float)stroke.BoundingRect.Y * (1 / zoom - 1));
-            }
-        }
 
         private InkPresenter presenter;
 
         public Images()
         {
-            holst = new ThumbnailCanvasData() { Height = (int)Height, Width = (int)Width, Name = namePicture };
+            canvasData = new ThumbnailCanvasDataService() { Height = (int)Height, Width = (int)Width, Name = namePicture };
             scaledHeight = height;
             scaledWidth = width;
         }
@@ -177,7 +175,7 @@ namespace AnalogIfranView.ViewModels
 
         public ICommand ShareCommand => new RelayCommand(async (o) =>
         {
-            Provider provider = new Provider(holst, container);
+            ShareImageProvider provider = new ShareImageProvider(canvasData, container);
             await provider.GetRef();
             DataTransferManager.ShowShareUI();
         });
@@ -188,35 +186,35 @@ namespace AnalogIfranView.ViewModels
             set => Set(ref strokes, value);
         }
 
-        public void InitByHolst(ICanvasData holst)
+        public void InitByCanvasData(ICanvasDataService canvasData)
         {
             if(isSendedToResize)
             {
                 isSendedToResize = false;
-                if(holst is ImageCanvasData imageHolst)
+                if(canvasData is ImageCanvasDataService imageCanvasDataVariable)
                 {
                     ImageResizer resizer = new ImageResizer();
-                    resizer.Resize(ref imageHolst);
-                    this.holst = imageHolst;
+                    resizer.Resize(ref imageCanvasDataVariable);
+                    this.canvasData = imageCanvasDataVariable;
                 }
             }
             else
             {
-                this.holst = holst;
+                this.canvasData = canvasData;
             }
-            Width = holst.Width;
-            Height = holst.Height;
+            Width = canvasData.Width;
+            Height = canvasData.Height;
             Zoom = 1.0F;
             ScaledWidth = Width;
             scaledHeight = Height;
-            NamePicture = holst.Name;
-            if(holst is ImageCanvasData imgHolst)
+            NamePicture = canvasData.Name;
+            if(canvasData is ImageCanvasDataService imageCanvasData)
             {
-                Image = imgHolst.ImageSRC;
+                Image = imageCanvasData.ImageSRC;
             }
         }
 
         private InkStrokeContainer strokes;
-        private ICanvasData holst;
+        private ICanvasDataService canvasData;
     }
 }

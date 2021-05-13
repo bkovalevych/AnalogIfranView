@@ -65,7 +65,7 @@
                    Grid.Column="1"/>
         
         <TextBlock Grid.Row="3" Text="{helper:ResourceString Name=width}" Style="{StaticResource label_style}"/>
-        <TextBox x:Name="widthInput" Grid.Row="3" Grid.Column="1" Text="{x:Bind vmField.Width, Mode=TwoWay, Converter={StaticResource numConverter}}" Style="{StaticResource input_style}">
+        <TextBox x:Name="widthInput" Width="100" Grid.Row="3" Grid.Column="1" Text="{x:Bind vmField.Width, Mode=TwoWay, Converter={StaticResource numConverter}}" Style="{StaticResource input_style}">
             <Interactivity:Interaction.Behaviors>
                 <Interactions:EventTriggerBehavior EventName="LostFocus" SourceObject="{Binding ElementName=widthInput}">
                     <Interactions:CallMethodAction TargetObject="{x:Bind vmField}" MethodName="Validate"/>
@@ -78,7 +78,7 @@
                    Grid.Column="1"/>
 
         <TextBlock Grid.Row="5" Text="{helper:ResourceString Name=height}" Style="{StaticResource label_style}"/>
-        <TextBox x:Name="heightInput" Grid.Row="5" Grid.Column="1" Style="{StaticResource input_style}" Text="{x:Bind vmField.Height, Mode=TwoWay}">
+        <TextBox x:Name="heightInput" Width="100" Grid.Row="5" Grid.Column="1" Style="{StaticResource input_style}" Text="{x:Bind vmField.Height, Mode=TwoWay}">
             <Interactivity:Interaction.Behaviors>
                 <Interactions:EventTriggerBehavior EventName="LostFocus" SourceObject="{Binding ElementName=heightInput}">
                     <Interactions:CallMethodAction TargetObject="{x:Bind vmField}" MethodName="Validate"/>

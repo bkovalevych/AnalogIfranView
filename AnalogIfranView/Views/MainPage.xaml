@@ -21,6 +21,7 @@
 
     <Page.Resources>
         <converter:NumberConverter x:Key="numConverter"/>
+        <converter:TabViewArgsConverter x:Key="tabCloseConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,7 +32,7 @@
         <muxc:MenuBar>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=file}">
                 <MenuFlyoutItem Text="{helper:ResourceString Name=open}" 
-                                Command="{x:Bind vm.SelectedPage.Images.OpenImageCommand}"
+                                Command="{x:Bind vm.SelectedPage.Images.OpenImageCommand, Mode=OneWay}"
                                 />
                 <!--<MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=slideshow}"/>
@@ -42,8 +43,8 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>-->
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind vm.SelectedPage.Images.SaveCommand}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind vm.SelectedPage.Images.SaveImageCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind vm.SelectedPage.Images.SaveCommand, Mode=OneWay}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind vm.SelectedPage.Images.SaveImageCommand, Mode=OneWay}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=settings}" 
@@ -53,10 +54,10 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=exit}" />
             </muxc:MenuBarItem>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=edit}">
-                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.UndoCommand}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.RedoCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.UndoCommand, Mode=OneWay}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.RedoCommand, Mode=OneWay}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind vm.SelectedPage.Images.ResizeCommand}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind vm.SelectedPage.Images.GoToResizeCommand, Mode=OneWay}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertText}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertImage}"/>
                 <MenuFlyoutSeparator/>
@@ -95,10 +96,17 @@
                           TabItemsSource="{x:Bind vm.Pages, Mode=TwoWay}"
                           SelectedItem="{x:Bind vm.SelectedPage, Mode=TwoWay}"
                           DataContext="{x:Bind vm.SelectedPage}"
+                          
                           >
+            <Interactivity:Interaction.Behaviors>
+                <Interactions:EventTriggerBehavior EventName="TabCloseRequested">
+                    <Interactions:InvokeCommandAction Command="{x:Bind vm.DeletePage}" 
+                                                      InputConverter="{StaticResource tabCloseConverter}" />
+                </Interactions:EventTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
             <controls:TabView.TabItemTemplate>
                 <DataTemplate>
-                    <controls:TabViewItem>
+                    <controls:TabViewItem IsClosable="True">
                         <controls:TabViewItem.Header>
                             <TextBlock Text="{Binding Images.NamePicture}"/>
                         </controls:TabViewItem.Header>
@@ -122,7 +130,7 @@
                                 </StackPanel>
                                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                     <ScrollViewer.Content>
-                                        <Grid Margin="20">
+                                        <Grid Margin="20" Background="White">
                                             <Image 
                                         Source="{Binding Images.Image, Mode=TwoWay}"
                                         Width="{Binding Images.ScaledWidth, Mode=OneWay}"
@@ -131,7 +139,7 @@
                                             <Border BorderThickness="1" BorderBrush="Aqua"
                                             Width="{Binding Images.ScaledWidth, Mode=OneWay}"
                                             Height="{Binding Images.ScaledHeight, Mode=OneWay}">
-                                                <InkCanvas x:Name="canvas">
+                                                <InkCanvas x:Name="canvas" >
                                                     <Interactivity:Interaction.Behaviors>
                                                         <Interactions:EventTriggerBehavior EventName="Loaded">
                                                             <Interactions:InvokeCommandAction Command="{Binding InitPresenterCommand}" 

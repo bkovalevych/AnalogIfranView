@@ -11,14 +11,14 @@ namespace AnalogIfranView.Helpers
 
         protected bool Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            if(Equals(storage, value))
+            bool isChanged = false;
+            if(!Equals(storage, value))
             {
-                return false;
+                isChanged = true;
+                storage = value;
+                OnPropertyChanged(propertyName);
             }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            return isChanged;
         }
     }
 }

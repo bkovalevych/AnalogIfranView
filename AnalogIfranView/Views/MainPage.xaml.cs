@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace AnalogIfranView.Views
 {
-    using Models;
+    using Services;
     using ViewModels;
     using Windows.UI.Core.Preview;
 
@@ -25,9 +25,9 @@ namespace AnalogIfranView.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(e.Parameter is ICanvasData holst)
+            if(e.Parameter is ICanvasDataService holst)
             {
-                vm.SelectedPage?.Images.InitByHolst(holst);
+                vm.SelectedPage?.Images.InitByCanvasData(holst);
             }
         }
 
