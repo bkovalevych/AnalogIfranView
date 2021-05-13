@@ -1,29 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel.DataTransfer.ShareTarget;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
 namespace AnalogIfranView
 {
-    using Views;
     using IOServices;
 
     /// <summary>
@@ -40,7 +25,8 @@ namespace AnalogIfranView
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             object themeOption = ApplicationData.Current.LocalSettings.Values["themSetting"];
-            if (themeOption != null) {
+            if(themeOption != null)
+            {
                 App.Current.RequestedTheme = (ApplicationTheme)(int)themeOption;
             }
         }
@@ -52,18 +38,16 @@ namespace AnalogIfranView
         /// <param name="e">Сведения о запросе и обработке запуска.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
             // Не повторяйте инициализацию приложения, если в окне уже имеется содержимое,
             // только обеспечьте активность окна
-            if (rootFrame == null)
+            if(!(Window.Current.Content is Frame rootFrame))
             {
                 // Создание фрейма, который станет контекстом навигации, и переход к первой странице
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if(e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Загрузить состояние из ранее приостановленного приложения
                 }
@@ -72,9 +56,9 @@ namespace AnalogIfranView
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if(e.PrelaunchActivated == false)
             {
-                if (rootFrame.Content == null)
+                if(rootFrame.Content == null)
                 {
                     // Если стек навигации не восстанавливается для перехода к первой странице,
                     // настройка новой страницы путем передачи необходимой информации в качестве параметра
@@ -109,11 +93,13 @@ namespace AnalogIfranView
             //TODO: Сохранить состояние приложения и остановить все фоновые операции
             deferral.Complete();
         }
-        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args) {
-            await RetrieverSharedTarget.OnShareTargetActivated(args);
+        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            await SharedTargetService.OnShareTargetActivated(args);
         }
-        protected override async void OnFileActivated(FileActivatedEventArgs args) {
-            await FileAssociation.OnFileActivated(args);
+        protected override async void OnFileActivated(FileActivatedEventArgs args)
+        {
+            await SharedTargetService.OnFileActivated(args);
             // TODO: Handle file activation
             // The number of files received is args.Files.Size
             // The name of the first file is args.Files[0].Name

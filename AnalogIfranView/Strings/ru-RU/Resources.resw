@@ -201,6 +201,9 @@
   <data name="nameThumbnail" xml:space="preserve">
     <value>Название рисунка</value>
   </data>
+  <data name="newImageName" xml:space="preserve">
+    <value>Новый набросок</value>
+  </data>
   <data name="no" xml:space="preserve">
     <value>нет</value>
   </data>
@@ -257,6 +260,12 @@
   </data>
   <data name="share" xml:space="preserve">
     <value>Поделиться</value>
+  </data>
+  <data name="sharedTargetDescription" xml:space="preserve">
+    <value>Изображение с приложения AnalogIfranView</value>
+  </data>
+  <data name="sharedTargetTitle" xml:space="preserve">
+    <value>Поделится изображением</value>
   </data>
   <data name="showPaintDialog" xml:space="preserve">
     <value>Кисть</value>

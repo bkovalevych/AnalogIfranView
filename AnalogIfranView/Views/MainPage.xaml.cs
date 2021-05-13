@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
 
 namespace AnalogIfranView.Views
 {
-    using Helpers;
-    using Windows.Globalization;
+    using Services;
     using ViewModels;
-    using Models;
     using Windows.UI.Core.Preview;
 
     /// <summary>
@@ -27,7 +14,7 @@ namespace AnalogIfranView.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private HomeViewModel vm;
+        private readonly HomeViewModel vm;
         public MainPage()
         {
             this.InitializeComponent();
@@ -35,17 +22,21 @@ namespace AnalogIfranView.Views
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += App_CloseRequested;
             Window.Current.Activate();
         }
-        
-        protected override void OnNavigatedTo(NavigationEventArgs e) {
-            if (e.Parameter is IHolst holst) {
-                vm.SelectedPage?.Images.InitByHolst(holst);
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if(e.Parameter is ICanvasDataService holst)
+            {
+                vm.SelectedPage?.Images.InitByCanvasData(holst);
             }
         }
 
-        private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e) {
+        private async void App_CloseRequested(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        {
             var deferral = e.GetDeferral();
             bool shouldClose = await vm.SaveOnClose();
-            if (shouldClose == false) {
+            if(shouldClose == false)
+            {
                 e.Handled = true;
             }
             deferral.Complete();

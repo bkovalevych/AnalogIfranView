@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AnalogIfranView.Helpers
@@ -29,7 +25,8 @@ namespace AnalogIfranView.Helpers
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         public RelayCommand(Action<object> execute)
-            : this(execute, null) {
+            : this(execute, null)
+        {
         }
 
         /// <summary>
@@ -37,10 +34,9 @@ namespace AnalogIfranView.Helpers
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
-        public RelayCommand(Action<object> execute, Func<bool> canExecute) {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
-            _execute = execute;
+        public RelayCommand(Action<object> execute, Func<bool> canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException("execute");
             _canExecute = canExecute;
         }
 
@@ -52,8 +48,9 @@ namespace AnalogIfranView.Helpers
         /// data to be passed, this object can be set to null.
         /// </param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object parameter) {
-            return _canExecute == null ? true : _canExecute();
+        public bool CanExecute(object parameter)
+        {
+            return this._canExecute == null || _canExecute();
         }
 
         /// <summary>
@@ -63,7 +60,8 @@ namespace AnalogIfranView.Helpers
         /// Data used by the command. If the command does not require 
         /// data to be passed, this object can be set to null.
         /// </param>
-        public void Execute(object parameter) {
+        public void Execute(object parameter)
+        {
             _execute(parameter);
         }
 
@@ -72,11 +70,9 @@ namespace AnalogIfranView.Helpers
         /// to indicate that the return value of the <see cref="CanExecute"/>
         /// method has changed.
         /// </summary>
-        public void RaiseCanExecuteChanged() {
-            var handler = CanExecuteChanged;
-            if (handler != null) {
-                handler(this, EventArgs.Empty);
-            }
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -1,29 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
+using Windows.ApplicationModel.Resources;
 
 namespace AnalogIfranView.ViewModels
 {
     using Helpers;
-    using Models;
-    using System.Windows.Input;
+    using Services;
     using Views;
-    using Windows.ApplicationModel.Resources;
 
-    public class ThumbnailCreateViewModel : Observable {
+    public class ThumbnailCreateViewModel : Observable
+    {
+        private const int STANDART_WIDTH_LANDSCAPE = 800;
+        private const int STANDART_HEIGHT_LANDSCAPE = 400;
+
         public int Width
         {
             get => width;
             set => Set(ref width, value);
         }
+
         private int width;
+        
         public int Height
         {
             get => height;
             set => Set(ref height, value);
         }
+        
         private int height;
 
         public string Name
@@ -31,6 +34,7 @@ namespace AnalogIfranView.ViewModels
             get => name;
             set => Set(ref name, value);
         }
+        
         private string name;
 
         public string NameErrorValidation
@@ -38,6 +42,7 @@ namespace AnalogIfranView.ViewModels
             get => nameErrorValidation;
             set => Set(ref nameErrorValidation, value);
         }
+        
         private string nameErrorValidation;
 
         public string WidthErrorValidation
@@ -45,6 +50,7 @@ namespace AnalogIfranView.ViewModels
             get => widthErrorValidation;
             set => Set(ref widthErrorValidation, value);
         }
+        
         private string widthErrorValidation;
 
         public string HeightErrorValidation
@@ -52,74 +58,94 @@ namespace AnalogIfranView.ViewModels
             get => heightErrorValidation;
             set => Set(ref heightErrorValidation, value);
         }
+        
         private string heightErrorValidation;
 
-
         public ICommand SetPortraitSizeCommand => new RelayCommand(SetPortraitSize);
-        private void SetPortraitSize(object o) {
-            Width = 400;
-            Height = 800;
+        
+        private void SetPortraitSize(object o)
+        {
+            Width = STANDART_HEIGHT_LANDSCAPE;
+            Height = STANDART_WIDTH_LANDSCAPE;
         }
 
         public ICommand SetLandscapeSizeCommand => new RelayCommand(SetLandscapeSize);
-        private void SetLandscapeSize(object o) {
-            Width = 800;
-            Height = 400;
-        }
-
-    
-
         
-        private IHolst holst;
-        private ResourceLoader resource = ResourceLoader.GetForCurrentView();
-        public ICommand CreateThumbnailCommand => new RelayCommand(CreateThumbnail);
-        private void CreateThumbnail(object o) {
-            Validate();
-            if (!IsValid) {
-                return;
-            }
-            if (creatingMode) {
-                holst = new ThumbnailHolst() { Height = Height, Width = Width, Name = Name };
-            } else {
-                holst.Height = Height;
-                holst.Width = Width;
-            }
-
-            NavigationService.Instance.Navigate(typeof(MainPage), holst);
-
+        private void SetLandscapeSize(object o)
+        {
+            Width = STANDART_WIDTH_LANDSCAPE;
+            Height = STANDART_HEIGHT_LANDSCAPE;
         }
 
-        public bool CreatingMode { set => Set(ref creatingMode, value); get => creatingMode; }
+        private ICanvasDataService canvasData;
+        private readonly ResourceLoader resource = ResourceLoader.GetForCurrentView();
+        
+        public ICommand CreateThumbnailCommand => new RelayCommand(CreateThumbnail);
+        
+        private void CreateThumbnail(object o)
+        {
+            Validate();
+            if(IsValid)
+            {
+                if(creatingMode)
+                {
+                    canvasData = new ThumbnailCanvasDataService() { 
+                        Height = Height, 
+                        Width = Width, 
+                        Name = Name };
+                }
+                else
+                {
+                    canvasData.Height = Height;
+                    canvasData.Width = Width;
+                }
+            }
+            NavigationService.Instance.Navigate(typeof(MainPage), canvasData);
+        }
+
+        public bool CreatingMode
+        {
+            set => Set(ref creatingMode, value); get => creatingMode;
+        }
+
         private bool creatingMode = true;
 
-        public void InitByHolst(IHolst holst) {
-            this.holst = holst;
-            Width = holst.Width;
-            Height = holst.Height;
-            Name = holst.Name;
+        public void InitByHolst(ICanvasDataService canvasData)
+        {
+            this.canvasData = canvasData;
+            Width = canvasData.Width;
+            Height = canvasData.Height;
+            Name = canvasData.Name;
             CreatingMode = false;
         }
-        
-        public void Validate() {
+
+        public void Validate()
+        {
             NameErrorValidation = "";
             WidthErrorValidation = "";
             HeightErrorValidation = "";
             bool isValidLocal = true;
-            if (String.IsNullOrEmpty(name)) {
+            if(String.IsNullOrEmpty(name))
+            {
                 isValidLocal = false;
                 NameErrorValidation = resource.GetString("invalidName");
             }
-            if (Width <= 0) {
+            if(Width <= 0)
+            {
                 isValidLocal = false;
                 WidthErrorValidation = resource.GetString("invalidWidth");
             }
-            if (Height <= 0) {
+            if(Height <= 0)
+            {
                 isValidLocal = false;
                 HeightErrorValidation = resource.GetString("invalidHeight");
             }
             IsValid = isValidLocal;
         }
 
-        private bool IsValid { set; get; }
+        private bool IsValid
+        {
+            set; get;
+        }
     }
 }

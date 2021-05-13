@@ -174,4 +174,13 @@
   <data name="share" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="newImageName" xml:space="preserve">
+    <value>New sketch</value>
+  </data>
+  <data name="sharedTargetDescription" xml:space="preserve">
+    <value>Image from AnalogIfranView</value>
+  </data>
+  <data name="sharedTargetTitle" xml:space="preserve">
+    <value>Share the image</value>
+  </data>
 </root>
