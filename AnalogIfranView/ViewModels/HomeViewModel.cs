@@ -44,7 +44,7 @@ namespace AnalogIfranView.ViewModels
             PageHolder new_val = new PageHolder();
             Pages.Add(new_val);
             SelectedIndex = Pages.Count - 1;
-            SelectedPage.Images.NamePicture += Pages.Count.ToString();
+            SelectedPage.ThumbnailViewModel.NamePicture += " " + Pages.Count.ToString();
         });
 
         private readonly Dictionary<int, InkPresenter> dict;
@@ -74,7 +74,7 @@ namespace AnalogIfranView.ViewModels
             {
                 foreach(var page in Pages)
                 {
-                    await page.Images.Save();
+                    await page.ThumbnailViewModel.Save();
                 }
             });
             return result;

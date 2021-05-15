@@ -142,7 +142,7 @@
     <Compile Include="Services\CanvasDataService\ThumbnailCanvasDataService.cs" />
     <Compile Include="IOServices\ShareImageProvider.cs" />
     <Compile Include="Services\UndoRedoService.cs" />
-    <Compile Include="ViewModels\Images.cs" />
+    <Compile Include="ViewModels\ThumbnailViewModel.cs" />
     <Compile Include="ViewModels\PageHolder.cs" />
     <Compile Include="ViewModels\ThumbnailCreateViewModel.cs" />
     <Compile Include="ViewModels\UndoRedoViewModel.cs" />

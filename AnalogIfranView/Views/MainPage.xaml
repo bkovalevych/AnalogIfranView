@@ -32,19 +32,12 @@
         <muxc:MenuBar>
             <muxc:MenuBarItem Title="{helper:ResourceString Name=file}">
                 <MenuFlyoutItem Text="{helper:ResourceString Name=open}" 
-                                Command="{x:Bind vm.SelectedPage.Images.OpenImageCommand, Mode=OneWay}"
+                                Command="{x:Bind vm.SelectedPage.ThumbnailViewModel.OpenImageCommand, Mode=OneWay}"
                                 />
-                <!--<MenuFlyoutItem Text="{helper:ResourceString Name=thumbnails}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=slideshow}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=batchConversion}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=searchFiles}"/>-->
                 <MenuFlyoutItem Text="{helper:ResourceString Name=renameFile}"/>
-                <!--<MenuFlyoutItem Text="{helper:ResourceString Name=moveFile}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=copyFile}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=deleteFile}"/>-->
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind vm.SelectedPage.Images.SaveCommand, Mode=OneWay}"/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind vm.SelectedPage.Images.SaveImageCommand, Mode=OneWay}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=save}" Command="{x:Bind vm.SelectedPage.ThumbnailViewModel.SaveCommand, Mode=OneWay}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=saveAs}" Command="{x:Bind vm.SelectedPage.ThumbnailViewModel.SaveImageCommand, Mode=OneWay}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=print}" />
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=settings}" 
@@ -57,7 +50,7 @@
                 <MenuFlyoutItem Text="{helper:ResourceString Name=undo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.UndoCommand, Mode=OneWay}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=redo}" Command="{x:Bind vm.SelectedPage.UndoRedoViewModel.RedoCommand, Mode=OneWay}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind vm.SelectedPage.Images.GoToResizeCommand, Mode=OneWay}"/>
+                <MenuFlyoutItem Text="{helper:ResourceString Name=resizeSource}" Command="{x:Bind vm.SelectedPage.ThumbnailViewModel.GoToResizeCommand, Mode=OneWay}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertText}"/>
                 <MenuFlyoutItem Text="{helper:ResourceString Name=insertImage}"/>
                 <MenuFlyoutSeparator/>
@@ -108,7 +101,7 @@
                 <DataTemplate>
                     <controls:TabViewItem IsClosable="True">
                         <controls:TabViewItem.Header>
-                            <TextBlock Text="{Binding Images.NamePicture}"/>
+                            <TextBlock Text="{Binding ThumbnailViewModel.NamePicture}"/>
                         </controls:TabViewItem.Header>
                         <controls:TabViewItem.Content>
                             <Grid >
@@ -125,20 +118,25 @@
                                             <SymbolIcon Symbol="Redo"/>
                                         </InkToolbarCustomToolButton>
                                     </InkToolbar>
-                                    <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{Binding Images.Zoom, Mode=TwoWay}"/>
-                                    <Button Content="{helper:ResourceString Name=share}" Command="{Binding Images.ShareCommand}"/>
+                                    <Slider Header="" Grid.Row="1" Width="200" Maximum="4" StepFrequency="0.1" Minimum="0.2" Value="{Binding ThumbnailViewModel.Zoom, Mode=TwoWay}"/>
+                                    <Button Content="{helper:ResourceString Name=share}" Command="{Binding ThumbnailViewModel.ShareCommand}"/>
                                 </StackPanel>
                                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                     <ScrollViewer.Content>
-                                        <Grid Margin="20" Background="White">
+                                        <Grid Margin="20" >
+                                            <Grid Background="White" 
+                                                  Width="{Binding ThumbnailViewModel.ScaledWidth, Mode=OneWay}"
+                                                  Height="{Binding ThumbnailViewModel.ScaledHeight, Mode=OneWay}"
+                                                  />
                                             <Image 
-                                        Source="{Binding Images.Image, Mode=TwoWay}"
-                                        Width="{Binding Images.ScaledWidth, Mode=OneWay}"
-                                        Height="{Binding Images.ScaledHeight, Mode=OneWay}">
+                                                Source="{Binding ThumbnailViewModel.Image, Mode=TwoWay}"
+                                                Width="{Binding ThumbnailViewModel.ScaledWidth, Mode=OneWay}"
+                                                Height="{Binding ThumbnailViewModel.ScaledHeight, Mode=OneWay}">
                                             </Image>
                                             <Border BorderThickness="1" BorderBrush="Aqua"
-                                            Width="{Binding Images.ScaledWidth, Mode=OneWay}"
-                                            Height="{Binding Images.ScaledHeight, Mode=OneWay}">
+                                            Width="{Binding ThumbnailViewModel.ScaledWidth, Mode=OneWay}"
+                                            Height="{Binding ThumbnailViewModel.ScaledHeight, Mode=OneWay}"
+                                                >
                                                 <InkCanvas x:Name="canvas" >
                                                     <Interactivity:Interaction.Behaviors>
                                                         <Interactions:EventTriggerBehavior EventName="Loaded">
@@ -157,24 +155,27 @@
                     
                 </DataTemplate>
             </controls:TabView.TabItemTemplate>
-            <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <TextBlock FontSize="10">
-                <Run Text="{helper:ResourceString Name=nameThumbnail}"/>
-                <Run Text=" : "/>
-                <Run Text="{x:Bind vm.SelectedPage.Images.NamePicture, Mode=OneWay}"/>
-                <Run Text="; "/>
+            </controls:TabView>
+            <StackPanel Grid.Row="2" 
+                        HorizontalAlignment="Right"
+                        Background="{StaticResource AppBarBackgroundThemeBrush}"
+                        VerticalAlignment="Bottom" Margin="0 0 20 5">
+                <TextBlock FontSize="10" >
+                    <Run Text="{helper:ResourceString Name=nameThumbnail}"/>
+                    <Run Text=" : "/>
+                    <Run Text="{x:Bind vm.SelectedPage.ThumbnailViewModel.NamePicture, Mode=OneWay}"/>
+                    <Run Text="; "/>
                 
-                <Run Text="{helper:ResourceString Name=width}"/>
-                <Run Text=" : "/>
-                <Run Text="{x:Bind vm.SelectedPage.Images.Width, Mode=OneWay}"/>
-                <Run Text="; "/>
+                    <Run Text="{helper:ResourceString Name=width}"/>
+                    <Run Text=" : "/>
+                    <Run Text="{x:Bind vm.SelectedPage.ThumbnailViewModel.Width, Mode=OneWay}"/>
+                    <Run Text="; "/>
                 
-                <Run Text="{helper:ResourceString Name=height}"/>
-                <Run Text=" : "/>
-                <Run Text="{x:Bind vm.SelectedPage.Images.Height, Mode=OneWay}"/>
-                <Run Text="; "/>
-                </TextBlock>
+                    <Run Text="{helper:ResourceString Name=height}"/>
+                    <Run Text=" : "/>
+                    <Run Text="{x:Bind vm.SelectedPage.ThumbnailViewModel.Height, Mode=OneWay}"/>
+                    <Run Text="; "/>
+                 </TextBlock>
             </StackPanel>
-        </controls:TabView>
     </Grid>
 </Page>

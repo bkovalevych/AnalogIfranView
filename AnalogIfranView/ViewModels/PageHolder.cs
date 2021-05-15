@@ -14,12 +14,12 @@ namespace AnalogIfranView.ViewModels
         
         private UndoRedoViewModel undoRedoViewModel;
 
-        public Images Images
+        public ThumbnailViewModel ThumbnailViewModel
         {
             get => images; set => Set(ref images, value);
         }
         
-        private Images images;
+        private ThumbnailViewModel images;
         public InkPresenter Presenter => presenter;
         private InkPresenter presenter;
         
@@ -40,7 +40,7 @@ namespace AnalogIfranView.ViewModels
 
         public PageHolder()
         {
-            images = new Images();
+            images = new ThumbnailViewModel();
             undoRedoViewModel = new UndoRedoViewModel();
         }
     }

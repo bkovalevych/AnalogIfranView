@@ -14,14 +14,17 @@ namespace AnalogIfranView.ViewModels
     using Windows.ApplicationModel.Resources;
     using Windows.UI.Input.Inking;
 
-    public class Images : Observable
+    public class ThumbnailViewModel : Observable
     {
         private const string DEFAULT_PICTURE_NAME_KEY = "newImageName";
         
         public string NamePicture
         {
             get => namePicture;
-            set => Set(ref namePicture, value);
+            set {
+                canvasData.Name = value;
+                Set(ref namePicture, value);
+            }
         }
 
         private string namePicture = ResourceLoader.GetForCurrentView().GetString(DEFAULT_PICTURE_NAME_KEY);
@@ -156,7 +159,7 @@ namespace AnalogIfranView.ViewModels
 
         private InkPresenter presenter;
 
-        public Images()
+        public ThumbnailViewModel()
         {
             canvasData = new ThumbnailCanvasDataService() { Height = (int)Height, Width = (int)Width, Name = namePicture };
             scaledHeight = height;
