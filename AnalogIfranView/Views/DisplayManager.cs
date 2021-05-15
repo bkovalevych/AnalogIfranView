@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
 namespace AnalogIfranView.Views
@@ -6,6 +10,17 @@ namespace AnalogIfranView.Views
     [MarkupExtensionReturnType(ReturnType = typeof(Type))]
     public class DisplayManager : MarkupExtension
     {
+        private readonly Dictionary<string, Type> allPages;
+        public DisplayManager()
+        {
+            var currentAssembly = this.GetType().GetTypeInfo().Assembly;
+            var pageTypeInfo = typeof(Page).GetTypeInfo();
+            allPages = new Dictionary<string, Type>();
+            var keyValues = currentAssembly.DefinedTypes
+                .Where(t => pageTypeInfo.IsAssignableFrom(t))
+                .Select(t => new KeyValuePair<string, Type>(t.Name, t));
+            allPages = new Dictionary<string, Type>(keyValues);
+        }
         public string PathToPage
         {
             set; get;
@@ -13,17 +28,16 @@ namespace AnalogIfranView.Views
 
         private Type GetTypeByPathToPage(string path)
         {
-            switch(path)
+            Type result;
+            try
             {
-                case nameof(MainPage):
-                    return typeof(MainPage);
-                case nameof(Settings):
-                    return typeof(Settings);
-                case nameof(CreatingThumbnailDialog):
-                    return typeof(CreatingThumbnailDialog);
-                default:
-                    return typeof(MainPage);
+                result = allPages[path];
             }
+            catch(KeyNotFoundException)
+            {
+                result = typeof(MainPage);
+            }
+            return result;
         }
 
         protected override object ProvideValue()

@@ -27,7 +27,7 @@ namespace AnalogIfranView.Views
         {
             if(e.Parameter is ICanvasDataService holst)
             {
-                vm.SelectedPage?.Images.InitByCanvasData(holst);
+                vm.SelectedPage?.ThumbnailViewModel.InitByCanvasData(holst);
             }
         }
 
